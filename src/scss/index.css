@@ -11,6 +11,11 @@ h3, .h3 {
   color: #3ad305;
 }
 
+.custom-green p {
+  color: #3ad305;
+}
+
+/* custom body background colour */
 body {
   background-color: #000;
 }
