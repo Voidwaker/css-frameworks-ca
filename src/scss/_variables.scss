@@ -14,7 +14,8 @@ h3 {
   color: $headings-color;
 }
 
+$body-bg: #000;
 
-.custom-padding-left {
-  padding-left: 1rem;
+body {
+  background-color: $body-bg;
 }
