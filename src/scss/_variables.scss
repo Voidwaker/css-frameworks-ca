@@ -1,3 +1,5 @@
+@import 'node_modules/bootstrap/scss/bootstrap';
+
 // custom colours for headings //   
 $custom-green: #3ad305;
 $headings-color: $custom-green;
@@ -14,8 +16,9 @@ h3 {
   color: $headings-color;
 }
 
-.custom-green p {
-  color: #3ad305;
+.custom.green {
+    color: #3ad305 !important;
+    
 }
 
 
