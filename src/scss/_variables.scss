@@ -1,5 +1,4 @@
-@import 'node_modules/bootstrap/scss/bootstrap';
-
+@import "../../node_modules/bootstrap/scss/bootstrap";
 // custom colours for headings //   
 $custom-green: #3ad305;
 $headings-color: $custom-green;
@@ -29,3 +28,14 @@ $body-bg: #000;
 body {
   background-color: $body-bg;
 }
+
+
+/* custom button colours */
+.btn-primary {
+  background-color: $custom-green !important;
+  border-color: #3ad305 !important;
+ &:hover, &:focus {
+    background-color: #3ad305 !important;
+    border-color: #3ad305 !important;
+  } 
+} 
