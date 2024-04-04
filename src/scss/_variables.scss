@@ -31,11 +31,14 @@ body {
 
 
 /* custom button colours */
-.btn-primary {
-  background-color: $custom-green !important;
-  border-color: #3ad305 !important;
- &:hover, &:focus {
-    background-color: #3ad305 !important;
-    border-color: #3ad305 !important;
-  } 
-} 
+$custom-primary: #3ad305;
+
+.btn-custom {
+  background-color: $custom-primary;
+  border-color: darken($custom-primary, 15%);
+
+  &:hover {
+    background-color: darken($custom-primary, 10%);
+    border-color: darken($custom-primary, 20%);
+  }
+}
