@@ -6,6 +6,7 @@
     <title>Feed</title>
     <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="/dist/css/index.css">
+    <script defer src="/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <header class="container-fluid col-10">
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -33,12 +34,12 @@
     <div class="container">
         <div class="d-flex flex-column mb-3 col-10 mx-auto">
             <div class="col-6">
-                <input type="text" class="form-control" placeholder="Søk etter innlegg...">
+                <input type="text" class="form-control text-white" placeholder="Søk etter innlegg...">
             </div>
         </div>
         <div class="d-flex flex-column mb-3 col-10 mx-auto">
             <div class="col-4">
-                <select class="form-control text-center">
+                <select class="form-control text-center text-white">
                     <option>Newest</option>
                     <option>Oldest</option>
                     <option>MostPopular</option>
@@ -49,7 +50,7 @@
             <div class="col-12">
                 <div class="card border-dark col-10 mb-3 mx-auto">
                     <div class="card-body">
-                        <h5 class="card-title mb-3">Create New Post</h5>
+                        <h5 class="card-title mb-3 text-green">Create New Post</h5>
                         <form>
                             <div class="mb-1">
                                 <label for="postContent" class="form-label">Content</label>
