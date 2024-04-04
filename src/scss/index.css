@@ -11989,11 +11989,12 @@ body {
 /* custom button colours */
 .btn-custom {
   background-color: #3ad305;
-  border-color: #258803;
+  color: #fff;
+  border: 1px solid #292b2c;
 }
 .btn-custom:hover {
   background-color: #2ca104;
-  border-color: #1f6f03;
+  border-color: #101112;
 }
 
 /*!

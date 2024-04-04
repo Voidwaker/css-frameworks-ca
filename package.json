@@ -4,10 +4,10 @@
   "description": "ca for the css-frameworks ca, noroff",
   "scripts": {
     "test": "echo \"We will learn more about testing in the Workflow course\" && exit 1",
-    "build": "sass src/scss:dist/css",
+    "build": "sass src/scss/index.scss dist/css/index.css",
     "start-server": "live-server",
-    "watch": "sass --watch src/scss:dist/css & live-server",
-    "dev": "npm-run-all --paralell watch start-server"
+    "watch": "sass --watch src/scss/index.scss:dist/css/index.css",
+    "dev": "npm-run-all --parallel watch start-server"
   },
   "repository": {
     "type": "git",

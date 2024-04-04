@@ -19,9 +19,6 @@ h3 {
     color: #3ad305 !important;
     
 }
-
-
-
 /* custom body background colour */
 $body-bg: #000;
 
@@ -31,14 +28,16 @@ body {
 
 
 /* custom button colours */
-$custom-primary: #3ad305;
-
 .btn-custom {
-  background-color: $custom-primary;
-  border-color: darken($custom-primary, 15%);
+  background-color: #3ad305; // Eller en annen synlig farge
+  color: #fff; // Sørg for at teksten er synlig
+  border: 1px solid #292b2c; // En synlig grensefarge
 
   &:hover {
-    background-color: darken($custom-primary, 10%);
-    border-color: darken($custom-primary, 20%);
+      background-color: darken(#3ad305, 10%);
+      border-color: darken(#292b2c, 10%);
   }
 }
+
+ 
+
