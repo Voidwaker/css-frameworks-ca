@@ -7,7 +7,8 @@
     "build": "sass src/scss:dist/css",
     "start-server": "live-server",
     "watch": "sass --watch src/scss/index.scss:dist/css/index.css",
-    "dev": "npm-run-all --parallel watch start-server"
+    "dev": "npm-run-all --parallel watch start-server",
+      "compile:sass": "sass src/scss/index.scss dist/css/index.css"
   },
   "repository": {
     "type": "git",
