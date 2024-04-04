@@ -30,20 +30,11 @@ body {
 
 /* custom button colours */
 
-.btn-custom {
-  background-color: #3ad305;
-  color: #fff;
-  border: 1px solid black;
-
-  &:hover {
-    background-color: darken(#3ad305, 10%);
-  }
+.btn.btn-custom {
+  background-color: #3ad305 !important;
+  color: black !important;
 }
+
  
 
-/* .btn-custom {
-    background-color: #3ad305;
-    border-color: #3ad800;
-    color: black; 
-} */
 
