@@ -2,6 +2,7 @@
 // custom colours for headings //   
 $custom-green: #3ad305;
 $headings-color: $custom-green;
+$primary-color: $custom-green;
 
 h1 {
   color: $headings-color;
@@ -28,16 +29,21 @@ body {
 
 
 /* custom button colours */
-.btn-custom {
-  background-color: #3ad305; // Eller en annen synlig farge
-  color: #fff; // Sørg for at teksten er synlig
-  border: 1px solid #292b2c; // En synlig grensefarge
+
+/* .btn-custom {
+  background-color: #3ad305;
+  color: #fff;
+  border: 1px solid black;
 
   &:hover {
-      background-color: darken(#3ad305, 10%);
-      border-color: darken(#292b2c, 10%);
+    background-color: darken(#3ad305, 10%);
   }
-}
-
+} */
  
+
+.btn-custom {
+    background-color: #3ad305;
+    border-color: #3ad800;
+    color: black; 
+}
 
