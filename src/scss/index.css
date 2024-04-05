@@ -11993,8 +11993,11 @@ body {
 }
 
 /* custom text coulor */
-.text-green {
-  color: #3ad305 !important;
+/* .text-green {
+  color: #3ad305;
+} */
+.my-form lable.text-green {
+  color: #3ad305;
 }
 
 /*!
