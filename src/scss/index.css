@@ -11994,7 +11994,7 @@ body {
 
 /* custom text coulor */
 .text-green {
-  color: #3ad305 !important;
+  color: #3ad305;
 }
 
 .my-form lable.text-green {
@@ -23966,7 +23966,4 @@ textarea.form-control-lg {
   .d-print-none {
     display: none !important;
   }
-}
-.text-green {
-  color: #3ad305 !important;
 }/*# sourceMappingURL=index.css.map */
