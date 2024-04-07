@@ -11849,14 +11849,17 @@ textarea.form-control-lg {
 }
 h1, .h1 {
   color: #3ad305;
+  font-family: "Courier New", Courier, monospace;
 }
 
 h2, .h2 {
   color: #3ad305;
+  font-family: "Courier New", Courier, monospace;
 }
 
 h3, .h3 {
   color: #3ad305;
+  font-family: "Courier New", Courier, monospace;
 }
 
 .custom.green {
