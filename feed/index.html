@@ -7,67 +7,61 @@
     <link rel="stylesheet" href="/dist/css/index.css">
     <script defer src="/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 </head>
-<header class="container-fluid col-10">
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="/">Home</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link" href="/profile">Profil</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/feed/index.html">feed</a>
-                    </li>
-                    </ul>
-            </div>
-            </div>
-        </header>
 <body class="bg-dark">
-    <div class="container mt-4 d-flex justify-content-center">
-        <h1 class="fst-italic fw-bold">Feed</h1>
-    </div>
-    <div class="row justify-content-center ">
-        <div class="col-12">
-            <div class="card border-dark col-10 mb-3 mx-auto">
-                <div class="card-body">
-                    <h5 class="card-title mb-3 text-green text-center">Create New Post</h5>
-                    <form>
-                        <div class="mb-1">
-                            <label for="postContent" class="form-label text-green">Content</label>
-                            <textarea class="form-control text-green" id="postContent" rows="3" placeholder="Skriv inn innhold"></textarea>
-                        </div>
-                        <div class="mb-2">
-                            <label for="postImage" class="form-label text-blue">Picture if wanted</label>
-                            <input type="file" class="form-control" id="postImage" accept="image/*">
-                        </div>
-                        <div class="d-flex justify-content-center">
-                        <button type="submit" class="btn btn-custom">Publish Post</button>
-                    </form>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="/">Home</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/profile">Profil</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="/feed/index.html">Feed</a>
+                        </li>
+                    </ul>
                 </div>
             </div>
-        </div>
-    </div>
-</div>
-        <div class="d-flex flex-column mb-3 col-10 mx-auto">
-            <div class="col-6">
-                <input type="text" class="form-control text-green" placeholder="Søk etter innlegg...">
+        </nav>
+    </header>
+    <main class="container mt-4">
+        <h1 class="fst-italic fw-bold text-center">Feed</h1>
+        <div class="card border-dark mb-3 mx-auto">
+            <div class="card-body">
+                <h5 class="card-title mb-3 text-green text-center">Create New Post</h5>
+                <form>
+                    <div class="mb-3">
+                        <label for="postContent" class="form-label text-green">Content</label>
+                        <textarea class="form-control text-green" id="postContent" rows="3" placeholder="What's on your mind?"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="postImage" class="form-label text-blue">Add a picture (optional)</label>
+                        <input type="file" class="form-control" id="postImage" accept="image/*">
+                    </div>
+                    <div class="d-flex justify-content-center">
+                        <button type="submit" class="btn btn-custom">Publish Post</button>
+                    </div>
+                </form>
             </div>
         </div>
-        <div class="d-flex flex-column mb-3 col-10 mx-auto">
-            <div class="col-4">
-                <select class="form-control text-center text-green">
+        <div class="d-flex justify-content-center mb-3">
+            <div class="col-md-8">
+                <input type="text" class="form-control text-green" placeholder="Search for posts...">
+            </div>
+        </div>
+        <div class="d-flex justify-content-center mb-3">
+            <div class="col-md-6 col-lg-4">
+                <select class="form-control text-green">
                     <option>Newest</option>
                     <option>Oldest</option>
-                    <option>MostPopular</option>
+                    <option>Most Popular</option>
                 </select>
             </div>
         </div>
-    </div>
-    
 </section>
     <section>
         <div class="card border-dark col-10 mb-1 mx-auto">
