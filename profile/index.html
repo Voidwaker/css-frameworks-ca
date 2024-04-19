@@ -8,99 +8,98 @@
     <link rel="stylesheet" href="/dist/css/index.css">
 </head>
 <body class="bg-dark">
-    <header class="container-fluid col-10">
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="/">Home</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav">
-                        <li class="nav-item">
-                            <a class="nav-link" href="/profile">Profil</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/feed/index.html">feed</a>
-                        </li>
-                        </ul>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light container-fluid">
+            <a class="navbar-brand" href="/">Home</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/profile">Profile</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/feed/index.html">Feed</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+    <main class="container mt-4">
+        <div class="row justify-content-center">
+            <div class="col-md-4">
+                <div class="profile-picture d-flex justify-content-center">
+                    <img src="https://via.placeholder.com/150" class="img-fluid rounded-circle" alt="Profile picture">
                 </div>
-                </div>
-            </header>
-            <section>
-                <main class="container mt-4">
-                    <div class="row justify-content-center">
-                        <div class="col-md-4">
-                            <div class="profile-picture d-flex justify-content-center">
-                                <img src="https://via.placeholder.com/150" class="img-fluid rounded-circle" alt="Profile picture">
+            </div>
+        </div>
+        <div class="row text-center mt-2">
+            <p class="text-green col-12">@Voidwaker</p>
+            <button type="button" class="btn btn-custom btn-follow mx-auto col-12 col-sm-6 col-md-2 fw-bold">Follow</button>
+        </div>
+        <div class="row text-center mt-2">
+            <p class="text-green col-6">Followers 62k</p>
+            <p class="text-green col-6">Following: 256</p>
+        </div>
+        <div class="row text-center mt-5">
+            <h2 class="col-12">Bio</h2>
+            <p class="text-green col-12">Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
+        </div>
+        <div class="row mt-3">
+            <div class="col-12">
+                <h2 class="text-uppercase mt-2 fs-6 text-center">Latest posts</h2>
+            </div>
+            <div class="col-12 col-md-10 mx-auto">
+                <div class="card border-dark mb-5">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <div class="d-flex align-items-center">
+                                <img src="https://via.placeholder.com/50" class="img-fluid rounded-circle" alt="Profile picture">
+                                <p class="mb-0 ms-2 text-green">Voidwaker</p>
                             </div>
+                            <small class="text-blue">10 hours ago</small>
                         </div>
+                        <p class="card-text mt-3 text-green">Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
                     </div>
-                    <div class="row text-center mt-2">
-                        <p class="text-green col-12">@Voidwaker</p>
-                        <button type="button" class="btn btn-custom btn-follow mx-auto col-4 col-md-2 fw-bold">Follow</button>
-                    </div>
-                    <div class="row text-center mt-2">
-                        <p class="text-green col-6">Followers 62k</p>
-                        <p class="text-green col-6">Following: 256</p>
-                    </div>
-                    <div class="row text-center mt-5">
-                        <h2 class="col-12">Bio</h2>
-                        <p class="text-green col-12">Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
-                    </div>
-            <section class="row mt-3 col-12">
-                <div class="mx-auto col-sm-2 col-md-4 ms-3">
-                    <h2 class="text-uppercase mt-2 fs-6 m-5">latest posts</h2>
                 </div>
-                <div class="card border-dark col-10 mb-5 mx-auto">
+                <div class="card border-dark mb-5">
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-center mb-3">
                             <div class="d-flex align-items-center">
                                 <img src="https://via.placeholder.com/50" class="img-fluid rounded-circle" alt="Profile picture">
                                 <p class="mb-0 ms-2 text-green">Voidwaker</p>
-                </div>
-                <small class="text-blue">10 hours ago</small>
+                            </div>
+                            <small class="text-blue">10 hours ago</small>
                         </div>
-                <p class="card-text mt-3 text-green">Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
+                        <p class="card-text mt-3 text-green">Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
+                    </div>
                 </div>
-                </div>
-                <div class="card border-dark mb-5 col-10 mx-auto">
+                <div class="card border-dark mb-5">
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-center mb-3">
                             <div class="d-flex align-items-center">
                                 <img src="https://via.placeholder.com/50" class="img-fluid rounded-circle" alt="Profile picture">
                                 <p class="mb-0 ms-2 text-green">Voidwaker</p>
-                </div>
-                <small class="text-blue">11 hours ago</small>
+                            </div>
+                            <small class="text-blue">10 hours ago</small>
                         </div>
-                <p class="card-text mt-3 text-green">Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
+                        <p class="card-text mt-3 text-green">Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
+                    </div>
                 </div>
-                </div>
-                <div class="card border-dark mb-5 col-10 mx-auto">
+                <div class="card border-dark mb-5">
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-center mb-3">
                             <div class="d-flex align-items-center">
                                 <img src="https://via.placeholder.com/50" class="img-fluid rounded-circle" alt="Profile picture">
                                 <p class="mb-0 ms-2 text-green">Voidwaker</p>
-                </div>
-                <small class="text-blue">12 hours ago</small>
+                            </div>
+                            <small class="text-blue">10 hours ago</small>
                         </div>
-                <p class="card-text mt-3 text-green">Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
-                </div>
-                </div>
-                <div class="card border-dark mb-5 col-10 mx-auto">
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between align-items-center mb-3">
-                            <div class="d-flex align-items-center">
-                                <img src="https://via.placeholder.com/50" class="img-fluid rounded-circle" alt="Profile picture">
-                                <p class="mb-0 ms-2 text-green">Voidwaker</p>
-                </div>
-                <small class="text-blue">13 hours ago</small>
-                        </div>
-                <p class="card-text mt-3 text-green">Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
-                </div>
-                </div>
-            </section>
+                        <p class="card-text mt-3 text-green">Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
+                    </div>
+            </div>
+        </div>
     </main>
 </body>
 </html>
