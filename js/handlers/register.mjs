@@ -1,10 +1,15 @@
-const form = document.querySelector('form');
+import { register } from "../api/auth/register.mjs"; 
 
-form.addEventListener("submit", (event) => { 
-    event.preventDefault();
+export function setRegisterFormListener(){
+    const form = document.getElementById('registerForm'); 
 
-    const form = event.target;
-    const formData = new FormData(form);
-    const profile= object.fromEntries(formData.entries());
-    console.log(profile);
-});
+    form.addEventListener("submit", (event) => { 
+        event.preventDefault();
+        const formData = new FormData(form);
+        const profile = Object.fromEntries(formData.entries());
+        console.log("Registreringsdata:", profile);
+
+        register(profile); 
+    });
+}
+
