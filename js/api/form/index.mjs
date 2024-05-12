@@ -14,7 +14,21 @@ export function setupFormToggle(loginForm, registerForm, toggleFormBtn) {
 
 export function handleLogin(event) {
     event.preventDefault();
-    console.log('Login Attempt');
+    const form = event.target;
+    const formData = new FormData(form);
+    const profile = Object.fromEntries(formData.entries());
+
+    console.log('Login Attempt with:', profile);
+
+    login(profile)
+        .then(response => {
+            console.log('Login Success:', response);
+            
+        })
+        .catch(error => {
+            console.error('Login Failed:', error);
+            
+        });
 }
 
 export function handleRegister(event) {
