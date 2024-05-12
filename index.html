@@ -53,11 +53,11 @@
                         <form id="registerForm" class="authForm" style="display: none;">
                             <div class="mb-3">
                                 <label for="registerName" class="form-label text-blue">Navn</label>
-                                <input type="text" class="form-control text-green" id="registerName" name="name" placeholder="Fullt navn" required pattern="^[a-zA-Z\s]+$">
+                                <input type="text" class="form-control text-green" id="registerName" name="name" placeholder="Fullt navn" required pattern="^[\w]+$">
                             </div>
                             <div class="mb-3">
                                 <label for="registerEmail" class="form-label text-blue">E-post</label>
-                                <input type="email" class="form-control text-green" id="registerEmail" name="email" placeholder="Email@example.com" required>
+                                <input type="email" class="form-control text-green" id="registerEmail" name="email" placeholder="Email@example.com" required pattern="^[\w\-.]+@(stud\.)?noroff\.no$">
                             </div>
                             <div class="mb-3">
                                 <label for="registerPassword" class="form-label text-blue">Passord</label>
