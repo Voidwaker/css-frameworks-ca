@@ -19,5 +19,10 @@ export function handleLogin(event) {
 
 export function handleRegister(event) {
     event.preventDefault();
-    console.log('Register Attempt');
+
+    const form = event.target;
+    const formData = new FormData(form);
+    const profile = Object.fromEntries(formData.entries());
+
+    console.log("Registreringsdata:", profile);
 }

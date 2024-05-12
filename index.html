@@ -6,7 +6,9 @@
     <title>Login/Registrer</title>
     <link rel="stylesheet" href="dist/css/index.css">
  <script defer src="node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
- <script type="module" src="./js/index.mjs"></script>
+ <script type="module" src="./js/index.mjs" defer></script>
+ <script src="./js/handlers/register.mjs" defer></script>
+
 </head>
 <body class="bg-dark">
     <header class="container-fluid">
@@ -35,7 +37,7 @@
                         <h2 class="text-center" id="formTitle">Logg Inn / Registrer</h2>
                         
                         
-                        <form id="loginForm" class="authForm">
+                        <form id="loginForm" class="authForm" method="post" action="/auth/login">
                             <div class="mb-3">
                                 <label for="loginEmail" class="form-label text-blue">E-post</label>
                                 <input type="email" class="form-control text-green" id="loginEmail" name="email" placeholder="Email@example.com" required>
@@ -50,7 +52,7 @@
                         </form>
                     
                         
-                        <form id="registerForm" class="authForm" style="display: none;">
+                        <form id="registerForm" class="authForm" method="post" action="/auth/register" style="display: none;">
                             <div class="mb-3">
                                 <label for="registerName" class="form-label text-blue">Navn</label>
                                 <input type="text" class="form-control text-green" id="registerName" name="name" placeholder="Fullt navn" required pattern="^[\w]+$" title="must contain only upper/lowercase and numbers">
