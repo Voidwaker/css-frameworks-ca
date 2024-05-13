@@ -17,6 +17,7 @@ export async function login(profile){
     })
 
     const response = await fetchResponse.json();
-    console.log(response);
+    
+    localStorage.setItem('token', result.accessToken);
 }
 
