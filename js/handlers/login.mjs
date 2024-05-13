@@ -1,15 +1,17 @@
-import { login } from "../api/auth/login.mjs"; 
+import { login } from "../api/auth/login.mjs";
 
-export function setLoginFormListener(){
-    const form = document.getElementById('loginForm'); 
+export function setloginFormListener() {
+    const form = document.querySelector('#loginForm');
 
-    form.addEventListener("submit", (event) => { 
-        event.preventDefault();
-        const formData = new FormData(form);
-        const profile = Object.fromEntries(formData.entries());
-        console.log("Registreringsdata:", profile);
+    if(form) {
+form.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const form = event.target;
+    const formData = new FormData(form);
+    const profile = Object.fromEntries(formData.entries());
+   
 
-        login(profile); 
-    });
+    login(profile)
+})
 }
-
+}
