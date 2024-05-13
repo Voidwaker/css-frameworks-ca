@@ -1,4 +1,4 @@
-export function setupFormToggle(loginForm, registerForm, toggleFormBtn) {
+/* export function setupFormToggle(loginForm, registerForm, toggleFormBtn) {
     toggleFormBtn.addEventListener('click', () => {
         if (loginForm.style.display !== 'none') {
             loginForm.style.display = 'none';
@@ -10,7 +10,7 @@ export function setupFormToggle(loginForm, registerForm, toggleFormBtn) {
             toggleFormBtn.innerText = 'Vis Registrering';
         }
     });
-}
+}*/
 
 export function handleLogin(event) {
     event.preventDefault();
