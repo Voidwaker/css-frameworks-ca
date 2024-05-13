@@ -1,5 +1,6 @@
 import { setRegisterFormListener } from './handlers/register.mjs'; 
 import { setLoginFormListener } from './handlers/login.mjs';
+import { login } from './api';
 
 const path = location.pathname;
 
