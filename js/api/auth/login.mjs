@@ -8,7 +8,7 @@ export async function login(profile){
     const loginURL = API_SOCIAL_URL + action;
     const body = JSON.stringify(profile);
 
-   const fetchResponse = await fetch(loginURL, {
+   const Response = await fetch(loginURL, {
         headers: {
             'Content-Type': 'application/json'
         },
@@ -16,8 +16,10 @@ export async function login(profile){
         body
     })
 
-    const response = await fetchResponse.json();
+    const result = await Response.json();
     
     localStorage.setItem('token', result.accessToken);
-}
+
+
+} 
 
