@@ -11,6 +11,7 @@ export function setloginFormListener() {
    
 
     login(profile)
+    console.log("du er logget inn")
 })
 }
 } 
