@@ -8,15 +8,12 @@ import * as post from "./api/posts/index.mjs";
         setRegisterFormListener();
     } else if (path === "/") {
         setloginFormListener();
-    }
-    
-    if (path === "/feed/index.html") {
+    } else if (path === "/feed/index.html") {
         post.getPosts()
             .then(posts => {
-                console.log(posts);
     
             
-                const postsContainer = document.getElementById('postsContainer');
+                const postsContainer = document.getElementById('posts');
     
                 
                 posts.forEach(post => {
@@ -36,8 +33,4 @@ import * as post from "./api/posts/index.mjs";
             })
             .catch(console.error);
     }
-    //post.createPost()
-    //post.updatePost()
-    //post.removePost()
-    //post.getPost()
-
+ 
