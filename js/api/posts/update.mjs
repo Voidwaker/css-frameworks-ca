@@ -1,1 +1,17 @@
-export async function updatePost(id) {}
+import { API_SOCIAL_URL } from "../constants.mjs";
+
+import { authFetch } from "../auth/authFetch.mjs";
+
+const action = "/posts";
+const method = "PUT";
+
+export async function updatePost(postData) {
+    const updatePostUrl = `${API_SOCIAL_URL}${action}/${postData.id}`;
+
+    const response = await authFetch(updatePostUrl, {
+        method,
+        body: JSON.stringify(postData)
+})
+
+return await response.json();
+}
