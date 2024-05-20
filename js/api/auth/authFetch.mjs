@@ -6,9 +6,9 @@ import { load } from "../../storage/index.mjs";
 export function headers() {
     const token = load('token');
 
-    return = {
+    return {
         "Content-Type": "application/json",
-        "authorization": `Bear ${token}`
+        "authorization": `Bearer ${token}`
     };
 }
 
@@ -17,5 +17,12 @@ export function headers() {
 
 
 export async function authFetch(url, options){
+    return fetch(url, {
+        ...options,
+        headers: {
+            ...options,
+            headers: headers()
+        }
+    })
 
 }
