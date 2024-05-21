@@ -27,6 +27,7 @@ export function setUpdatePostListener() {
     console.log("Form found:", form); 
 
     const url = new URL(location.href);
+    console.log("Current URL:", url.href);
     const id = url.searchParams.get("id");
     console.log("Post ID from URL:", id); 
 
