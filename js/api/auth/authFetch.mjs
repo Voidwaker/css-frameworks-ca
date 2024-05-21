@@ -2,7 +2,6 @@ import { load } from "../../storage/index.mjs";
 
 export function headers() {
     const token = load("token");
-    console.log('Token hentet fra localStorage:', token);
 
     return {
         "Content-Type": "application/json",
@@ -18,7 +17,6 @@ export async function authFetch(url, options = {}){
             ...options.headers
         }
     };
-    console.log('Forespørselens opsjoner:', requestOptions); 
 
     try {
         const response = await fetch(url, requestOptions);
@@ -28,6 +26,7 @@ export async function authFetch(url, options = {}){
         throw error;
     }
 }
+
 
  
 

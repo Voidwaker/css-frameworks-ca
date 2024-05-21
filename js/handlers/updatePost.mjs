@@ -22,14 +22,10 @@ import { updatePost } from "../api/posts/update.mjs";
  * setUpdatePostListener();
  */
 export function setUpdatePostListener() {
-    console.log("setUpdatePostListener called"); 
     const form = document.querySelector("#editPost");
-    console.log("Form found:", form); 
 
     const url = new URL(location.href);
-    console.log("Current URL:", url.href); 
     const id = url.searchParams.get("id");
-    console.log("Post ID from URL:", id); 
 
     if (form) {
         form.addEventListener("submit", (event) => {
@@ -51,10 +47,8 @@ export function setUpdatePostListener() {
                 return;
             }
 
-            console.log('Updating post with data:', JSON.stringify(post, null, 2)); 
             updatePost(post)
                 .then(response => {
-                    console.log('Post updated successfully:', response); 
                     alert("Post updated successfully!");
                 })
                 .catch(error => {
@@ -66,3 +60,4 @@ export function setUpdatePostListener() {
         console.error('Form not found!');
     }
 }
+

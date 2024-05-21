@@ -6,32 +6,29 @@ const method = "POST";
 
 export async function createPost(postData) {
     const createPostUrl = `${API_SOCIAL_URL}${action}`;
-    console.log('Sending POST request to:', createPostUrl); 
-    console.log('Post data:', JSON.stringify(postData, null, 2)); 
 
     try {
         const response = await authFetch(createPostUrl, {
             method,
             headers: {
-                'Content-Type': 'application/json' 
+                'Content-Type': 'application/json'
             },
             body: JSON.stringify(postData)
         });
 
         if (!response.ok) {
             const error = await response.json();
-            console.error('Error response from API:', JSON.stringify(error, null, 2)); 
             throw new Error(`HTTP error! status: ${response.status}`);
         }
 
         const post = await response.json();
-        console.log('Post created:', JSON.stringify(post, null, 2)); 
         return post;
     } catch (error) {
         console.error('Error creating post:', error); 
         throw error;
     }
 }
+
 
 
 

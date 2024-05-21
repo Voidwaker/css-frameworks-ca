@@ -12,7 +12,6 @@ if (path === "/register.html") {
 } else if (path === "/") {
     setloginFormListener();
 } else if (path === "/feed/index.html") {
-    console.log("Calling setCreatePostFormListener and setUpdatePostListener");
     setCreatePostFormListener(); 
     setUpdatePostListener(); 
 
@@ -23,7 +22,6 @@ if (path === "/register.html") {
         posts.forEach(post => {
             const createdAt = new Date(post.created);
             const formattedDate = isNaN(createdAt.getTime()) ? 'Invalid date' : createdAt.toLocaleString();
-            console.log(`Post ID: ${post.id}, CreatedAt: ${post.created}, FormattedDate: ${formattedDate}`);
 
             const postElement = document.createElement('div');
             postElement.className = 'card mb-3';
@@ -58,31 +56,20 @@ if (path === "/register.html") {
     }
 
     post.getPosts().then(posts => {
-        console.log('Posts before sorting:', posts);
         posts.sort((a, b) => new Date(b.created) - new Date(a.created)); 
-        console.log('Posts after sorting:', posts);
         displayPosts(posts);
     }).catch(console.error);
 
     document.getElementById('filterPosts').addEventListener('change', function(event) {
         const filter = event.target.value;
-        console.log('Selected filter:', filter); 
         post.getPosts()
             .then(posts => {
-                console.log('Posts before sorting:', posts); 
                 let sortedPosts;
                 if (filter === 'newest') {
-                    sortedPosts = posts.sort((a, b) => {
-                        console.log('Comparing:', a.created, b.created); 
-                        return new Date(b.created) - new Date(a.created);
-                    });
+                    sortedPosts = posts.sort((a, b) => new Date(b.created) - new Date(a.created));
                 } else if (filter === 'oldest') {
-                    sortedPosts = posts.sort((a, b) => {
-                        console.log('Comparing:', a.created, b.created); 
-                        return new Date(a.created) - new Date(b.created);
-                    });
+                    sortedPosts = posts.sort((a, b) => new Date(a.created) - new Date(b.created));
                 }
-                console.log('Posts after sorting:', sortedPosts); 
                 displayPosts(sortedPosts);
             })
             .catch(console.error);
@@ -90,13 +77,11 @@ if (path === "/register.html") {
 
     document.getElementById('searchPosts').addEventListener('input', function(event) {
         const query = event.target.value.toLowerCase();
-        console.log('Search query:', query); 
         post.getPosts()
             .then(posts => {
                 const filteredPosts = posts.filter(post => 
                     post.title && post.title.toLowerCase().includes(query)
                 );
-                console.log('Filtered posts:', filteredPosts); 
                 displayPosts(filteredPosts);
             })
             .catch(console.error);
