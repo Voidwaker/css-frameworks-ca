@@ -7,6 +7,7 @@ export function setUpdatePostListener() {
 
     const url = new URL(location.href);
     const id = url.searchParams.get("id");
+    console.log("Post ID from URL:", id); 
 
     if (form) {
         form.addEventListener("submit", (event) => {
@@ -16,13 +17,21 @@ export function setUpdatePostListener() {
             const post = Object.fromEntries(formData.entries());
             post.id = id;
 
+            if (!post.id) {
+                console.error("Post ID is missing!");
+                alert("Post ID is required.");
+                return;
+            }
+
             console.log('Updating post with data:', post); 
             updatePost(post)
                 .then(response => {
                     console.log('Post updated successfully:', response); 
+                    alert("Post updated successfully!");
                 })
                 .catch(error => {
                     console.error('Error updating post:', error);
+                    alert("Error updating post: " + error.message);
                 });
         });
     } else {
