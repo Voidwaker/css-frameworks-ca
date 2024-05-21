@@ -10,7 +10,7 @@ import { updatePost } from "../api/posts/update.mjs";
  * 
  * @example
  * 
- * // Expected URL format: http://example.com/edit.html?id=123
+ * // Expected URL format: http://example.com/feed/index.html?id=123
  * 
  * <form id="editPost">
  *   <input name="title" type="text" />
@@ -27,7 +27,7 @@ export function setUpdatePostListener() {
     console.log("Form found:", form); 
 
     const url = new URL(location.href);
-    console.log("Current URL:", url.href);
+    console.log("Current URL:", url.href); 
     const id = url.searchParams.get("id");
     console.log("Post ID from URL:", id); 
 
@@ -39,13 +39,19 @@ export function setUpdatePostListener() {
             const post = Object.fromEntries(formData.entries());
             post.id = id;
 
+            if (post.tags) {
+                post.tags = post.tags.split(',').map(tag => tag.trim());
+            } else {
+                post.tags = [];
+            }
+
             if (!post.id) {
                 console.error("Post ID is missing!");
                 alert("Post ID is required.");
                 return;
             }
 
-            console.log('Updating post with data:', post); 
+            console.log('Updating post with data:', JSON.stringify(post, null, 2)); 
             updatePost(post)
                 .then(response => {
                     console.log('Post updated successfully:', response); 
@@ -53,12 +59,10 @@ export function setUpdatePostListener() {
                 })
                 .catch(error => {
                     console.error('Error updating post:', error);
-                    alert("Error updating post: " + error.message);
+                    alert("Error updating post: " + (error.message || JSON.stringify(error)));
                 });
         });
     } else {
         console.error('Form not found!');
     }
 }
-
-
