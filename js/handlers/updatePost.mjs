@@ -1,5 +1,26 @@
 import { updatePost } from "../api/posts/update.mjs";
 
+/**
+ * Sets up an event listener for the update form.
+ * 
+ * This function locates a form with the ID `editPost` and attaches a `submit` event listener to it.
+ * When the form is submitted, the function retrieves the post ID from the URL, gathers the data from the form,
+ * and sends a request to update the post. If the update is successful, a success message is displayed.
+ * If an error occurs, an error message is displayed.
+ * 
+ * @example
+ * 
+ * // Expected URL format: http://example.com/edit.html?id=123
+ * 
+ * <form id="editPost">
+ *   <input name="title" type="text" />
+ *   <textarea name="body"></textarea>
+ *   <button type="submit">Update Post</button>
+ * </form>
+ * 
+ * // JavaScript
+ * setUpdatePostListener();
+ */
 export function setUpdatePostListener() {
     console.log("setUpdatePostListener called"); 
     const form = document.querySelector("#editPost");
@@ -38,4 +59,5 @@ export function setUpdatePostListener() {
         console.error('Form not found!');
     }
 }
+
 
