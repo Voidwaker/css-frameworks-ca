@@ -2,6 +2,7 @@ import { load } from "../../storage/index.mjs";
 
 export function headers() {
     const token = load("token");
+    console.log('Token hentet fra localStorage:', token);
 
     return {
         "Content-Type": "application/json",
@@ -10,10 +11,24 @@ export function headers() {
 }
 
 export async function authFetch(url, options = {}){
-    return fetch(url, {
+    const requestOptions = {
         ...options,
-        headers: headers()
-    });
+        headers: {
+            ...headers(),
+            ...options.headers
+        }
+    };
+    console.log('Forespørselens opsjoner:', requestOptions); 
 
-} 
+    try {
+        const response = await fetch(url, requestOptions);
+        return response;
+    } catch (error) {
+        console.error('Feil under fetch:', error);
+        throw error;
+    }
+}
+
+ 
+
 
