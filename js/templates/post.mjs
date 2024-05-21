@@ -17,7 +17,6 @@ export function renderPostTemplateB(postData){
 }
 
 export function renderPostTemplateC(postData, parent){
-    /* parentElement.innerHTML = postTemplate(postData); */
 
     parent.append(postTemplateB(postData));
 }
