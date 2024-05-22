@@ -14,7 +14,6 @@
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container-fluid">
                 <a class="navbar-brand" href="/">Home</a>
-                <A class="navbar-brand" href="register.html">Register</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -28,27 +27,31 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="/index.html">Logout</a>
+                        </li>
                     </ul>
-                    </div>
-                    </div>
-                    </nav>
-                    </header>
-                    <div class="container-sm col-6 mt-5">
-                        <h2 class="text-center">Logg Inn</h2>
-                        <form id="loginForm">
-                            <div class="mb-3">
-                                <label for="loginEmail" class="form-label text-blue">E-post</label>
-                                <input type="email" class="form-control text-green" id="loginEmail" name="email" placeholder="Email@example.com" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="loginPassword" class="form-label text-blue">Passord</label>
-                                <input type="password" class="form-control text-green" id="loginPassword" name="password" placeholder="Password" required minlength="8">
-                            </div>
-                            <div class="d-flex justify-content-center">
-                                <button type="submit" class="btn btn-custom">Logg Inn</button>
-                            </div>
-                        </form>
-                        <div id="errorDisplay" style="color: red;"></div>
-                    </div>
-                </body>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container-sm col-6 mt-5">
+        <h2 class="text-center">Logg Inn</h2>
+        <form id="loginForm">
+            <div class="mb-3">
+                <label for="loginEmail" class="form-label text-blue">E-post</label>
+                <input type="email" class="form-control text-green" id="loginEmail" name="email" placeholder="Email@example.com" required>
+            </div>
+            <div class="mb-3">
+                <label for="loginPassword" class="form-label text-blue">Passord</label>
+                <input type="password" class="form-control text-green" id="loginPassword" name="password" placeholder="Password" required minlength="8">
+            </div>
+            <div class="d-flex justify-content-center">
+                <button type="submit" class="btn btn-custom">Logg Inn</button>
+            </div>
+        </form>
+        <div id="errorDisplay" style="color: red;"></div>
+        <div class="d-flex justify-content-center mt-3">
+            <a href="register.html" class="btn btn-custom">Register</a>
+        </div>
+    </div>
+</body>
 </html>
