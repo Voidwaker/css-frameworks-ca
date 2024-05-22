@@ -56,7 +56,6 @@ after registring a user, you can take the same email and password and login.
 
 ## feed
 in the feed page, when you have logged inn, you can create a post (with a title, body,tags(optionale) and media(optionale) further down the page, u can update(edit) a post that you have created,just click on the edit button on the post u want to edit (to get the post id) .you can also delete a post, if you are unhappy, or if u dont want it out there, its simple, just click on the delete button on the post u want to delete (to get the post id so the post can be deleted)
-here I add each page, a brief description of the design and what it should have on it, how it should be displayed etc.
 we have a search fuction, if u wanna see 100 posts of "test" just search test or example" 
 after that we have a sorting option, where the default is newest, but if you set it to the oldest, the oldests posts (out of the 100 fetched) is being displayed first.
 last we have the feed, here you can see the time the posts, the time the have beed posted.
