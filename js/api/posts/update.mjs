@@ -14,6 +14,22 @@ const method = "put";
  * @param {Array<string>} [postData.tags] - The tags for the post.
  * @param {string} [postData.media] - The media URL for the post.
  * @returns {Promise<Object>} The updated post data.
+ * @throws {Error} Will throw an error if the post ID is not provided.
+ * @throws {Error} Will throw an error if the HTTP request fails.
+ * 
+ * @example
+ * // Expected usage:
+ * updatePost({
+ *   id: "123",
+ *   title: "Updated Title",
+ *   body: "Updated body content",
+ *   tags: ["tag1", "tag2"],
+ *   media: "http://example.com/image.jpg"
+ * }).then(updatedPost => {
+ *   console.log(updatedPost);
+ * }).catch(error => {
+ *   console.error(error);
+ * });
  */
 export async function updatePost(postData) {
     if (!postData.id) {
@@ -37,3 +53,4 @@ export async function updatePost(postData) {
 
     return await response.json();
 }
+
