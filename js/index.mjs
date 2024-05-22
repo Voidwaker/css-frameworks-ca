@@ -56,7 +56,7 @@ if (path === "/register.html") {
     }
 
     post.getPosts().then(posts => {
-        posts.sort((a, b) => new Date(b.created) - new Date(a.created)); 
+        posts.sort((a, b) => new Date(b.created) - new Date(a.created));
         displayPosts(posts);
     }).catch(console.error);
 
@@ -87,6 +87,7 @@ if (path === "/register.html") {
             .catch(console.error);
     });
 }
+
 
 
   

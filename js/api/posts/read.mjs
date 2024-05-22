@@ -17,3 +17,7 @@ export async function getPost(id) {
     const response = await authFetch(getPostsUrl);
     return await response.json();
 }
+
+
+
+
