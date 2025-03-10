@@ -1,30 +1,34 @@
 import { setRegisterFormListener } from "./handlers/register.mjs";
 import { setloginFormListener } from "./handlers/login.mjs";
 import { setCreatePostFormListener } from "./handlers/createPost.mjs";
-import { setUpdatePostListener } from "./handlers/updatePost.mjs"; 
+import { setUpdatePostListener } from "./handlers/updatePost.mjs";
 import * as post from "./api/posts/index.mjs";
-import * as listeners from "./handlers/index.mjs";
 
-const path = location.pathname;
+const path = window.location.pathname;
+console.log("🌍 Current path:", path);
 
-if (path === "/register.html") {
+if (path.includes("register.html")) {
+    console.log("🟢 Initializing register form...");
     setRegisterFormListener();
-} else if (path === "/") {
+} else if (path === "/" || path.includes("index.html")) {
+    console.log("🟢 Initializing login form...");
     setloginFormListener();
-} else if (path === "/feed/index.html") {
+}
+
+else if (path.includes("feed/index.html")) {
     setCreatePostFormListener(); 
     setUpdatePostListener(); 
 
     function displayPosts(posts) {
-        const postsContainer = document.getElementById('posts');
-        postsContainer.innerHTML = '';
+        const postsContainer = document.getElementById("posts");
+        postsContainer.innerHTML = "";
 
         posts.forEach(post => {
             const createdAt = new Date(post.created);
-            const formattedDate = isNaN(createdAt.getTime()) ? 'Invalid date' : createdAt.toLocaleString();
+            const formattedDate = isNaN(createdAt.getTime()) ? "Invalid date" : createdAt.toLocaleString();
 
-            const postElement = document.createElement('div');
-            postElement.className = 'card mb-3';
+            const postElement = document.createElement("div");
+            postElement.className = "card mb-3";
 
             postElement.innerHTML = `
                 <div class="card-body text-green">
@@ -39,35 +43,37 @@ if (path === "/register.html") {
             postsContainer.appendChild(postElement);
         });
 
-        document.querySelectorAll('.delete-post').forEach(button => {
-            button.addEventListener('click', function() {
-                const postId = this.getAttribute('data-id');
+        document.querySelectorAll(".delete-post").forEach(button => {
+            button.addEventListener("click", function() {
+                const postId = this.getAttribute("data-id");
                 post.removePost(postId)
-                    .then(response => {
-                        alert('Post deleted successfully');
+                    .then(() => {
+                        alert("Post deleted successfully");
                         location.reload();
                     })
                     .catch(error => {
-                        console.error('Error deleting post:', error);
-                        alert('Error deleting post: ' + error.message);
+                        console.error("Error deleting post:", error);
+                        alert("Error deleting post: " + error.message);
                     });
             });
         });
     }
 
-    post.getPosts().then(posts => {
-        posts.sort((a, b) => new Date(b.created) - new Date(a.created));
-        displayPosts(posts);
-    }).catch(console.error);
+    post.getPosts()
+        .then(posts => {
+            posts.sort((a, b) => new Date(b.created) - new Date(a.created));
+            displayPosts(posts);
+        })
+        .catch(console.error);
 
-    document.getElementById('filterPosts').addEventListener('change', function(event) {
+    document.getElementById("filterPosts")?.addEventListener("change", function(event) {
         const filter = event.target.value;
         post.getPosts()
             .then(posts => {
                 let sortedPosts;
-                if (filter === 'newest') {
+                if (filter === "newest") {
                     sortedPosts = posts.sort((a, b) => new Date(b.created) - new Date(a.created));
-                } else if (filter === 'oldest') {
+                } else if (filter === "oldest") {
                     sortedPosts = posts.sort((a, b) => new Date(a.created) - new Date(b.created));
                 }
                 displayPosts(sortedPosts);
@@ -75,7 +81,7 @@ if (path === "/register.html") {
             .catch(console.error);
     });
 
-    document.getElementById('searchPosts').addEventListener('input', function(event) {
+    document.getElementById("searchPosts")?.addEventListener("input", function(event) {
         const query = event.target.value.toLowerCase();
         post.getPosts()
             .then(posts => {
@@ -87,8 +93,6 @@ if (path === "/register.html") {
             .catch(console.error);
     });
 }
-
-
 
   
 

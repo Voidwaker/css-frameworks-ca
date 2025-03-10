@@ -1,27 +1,37 @@
-import { API_SOCIAL_URL } from "../constants.mjs";
+import { API_LOGIN, API_PROFILE_STORAGE, API_TOKEN_STORAGE } from "../constants.mjs";
 import * as storage from "../../storage/index.mjs";
+import { createApiKey } from "./createApiKey.mjs";
 
-const action = "/auth/login";
-const method = "POST";
+export async function login(email, password) {
+    console.log("🔵 Logger inn med:", email);
 
-export async function login(profile){
-    const loginURL = API_SOCIAL_URL + action;
-    const body = JSON.stringify(profile);
+    try {
+        const response = await fetch(API_LOGIN, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ email, password })
+        });
 
-    const Response = await fetch(loginURL, {
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        method,
-        body
-    });
+        console.log("🟢 Login-respons:", response);
 
-    const {accessToken, ...user} = await Response.json();
-    storage.save('token', accessToken);
-    storage.save('profile', user);
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(`❌ Login feilet: ${errorData.message || response.status}`);
+        }
 
-    alert('Login successful');
+        const { data } = await response.json();
+        console.log("🟢 Login vellykket:", data);
+
+        storage.save(API_PROFILE_STORAGE, data);
+        storage.save(API_TOKEN_STORAGE, data.accessToken);
+
+        await createApiKey(); 
+
+        return data;
+    } catch (error) {
+        console.error("❌ Feil under login:", error);
+        return null;
+    }
 }
-
-
-

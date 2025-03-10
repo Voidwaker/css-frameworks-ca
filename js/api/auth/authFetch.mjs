@@ -1,11 +1,14 @@
 import { load } from "../../storage/index.mjs";
+import { API_KEY_STORAGE, API_TOKEN_STORAGE, DEFAULT_API_KEY } from "../constants.mjs";
 
 export function headers() {
-    const token = load("token");
+    const token = load(API_TOKEN_STORAGE);
+    const apiKey = localStorage.getItem(API_KEY_STORAGE) || DEFAULT_API_KEY;
 
     return {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`
+        "Authorization": token ? `Bearer ${token}` : "",
+        "X-Noroff-API-Key": apiKey
     };
 }
 
