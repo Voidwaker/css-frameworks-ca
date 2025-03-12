@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile</title>
     <link rel="stylesheet" href="/dist/css/index.css">
-    <script defer src="/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script type="module" src="/js/index.mjs" defer></script>
+    <script defer src="/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body class="bg-dark">
     <header>
@@ -36,27 +36,26 @@
         <div class="row justify-content-center">
             <div class="col-md-4">
                 <div class="profile-picture d-flex justify-content-center">
-                    <img src="https://via.placeholder.com/150" class="img-fluid rounded-circle" alt="Profile picture">
+                    <img id="profile-avatar" src="https://via.placeholder.com/150" class="img-fluid rounded-circle" alt="Profile picture">
                 </div>
             </div>
         </div>
         <div class="row text-center mt-2">
-            <p class="text-green col-12">@Voidwaker</p>
-            <button type="button" class="btn btn-custom btn-follow mx-auto col-12 col-sm-6 col-md-2 fw-bold">Follow</button>
+            <p class="text-green col-12" id="profile-username">@Username</p>
         </div>
         <div class="row text-center mt-2">
-            <p class="text-green col-6">Followers 62k</p>
-            <p class="text-green col-6">Following: 256</p>
+            <p class="text-green col-6">Followers: <span id="profile-followers">0</span></p>
+            <p class="text-green col-6">Following: <span id="profile-following">0</span></p>
         </div>
         <div class="row text-center mt-5">
             <h2 class="col-12">Bio</h2>
-            <p class="text-green col-12">Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
+            <p class="text-green col-12" id="profile-bio">No bio available</p>
         </div>
         <div class="row mt-3">
             <h2 class="col-12 text-center">My Posts</h2>
             <div id="user-posts" class="mt-4 col-12"></div>
         </div>
-    </main>
+    </main>    
 </body>
 </html>
 

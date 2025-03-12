@@ -2,6 +2,7 @@ import { setRegisterFormListener } from "./handlers/register.mjs";
 import { setloginFormListener } from "./handlers/login.mjs";
 import { setCreatePostFormListener } from "./handlers/createPost.mjs";
 import { setUpdatePostListener } from "./handlers/updatePost.mjs";
+import { displayProfile } from "./handlers/profile.mjs";
 import * as post from "./api/posts/index.mjs";
 
 const path = window.location.pathname;
@@ -13,6 +14,9 @@ if (path.includes("register.html")) {
 } else if (path === "/" || path.includes("index.html")) {
     console.log("🟢 Initializing login form...");
     setloginFormListener();
+} else if (path.includes("profile/index.html")) {
+    console.log("🟢 Loading profile...");
+    displayProfile();
 }
 
 else if (path.includes("feed/index.html")) {
