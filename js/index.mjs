@@ -5,6 +5,8 @@ import { setUpdatePostListener } from "./handlers/updatePost.mjs";
 import { displayProfile } from "./handlers/profile.mjs";
 import * as post from "./api/posts/index.mjs";
 
+console.log("🚀 index.mjs is running!");
+
 const path = window.location.pathname;
 console.log("🌍 Current path:", path);
 
@@ -14,7 +16,7 @@ if (path.includes("register.html")) {
 } else if (path === "/" || path.includes("index.html")) {
     console.log("🟢 Initializing login form...");
     setloginFormListener();
-} else if (path.includes("profile/index.html")) {
+} else if (path.includes("/profile")) { 
     console.log("🟢 Loading profile...");
     displayProfile();
 }
