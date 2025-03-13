@@ -9,11 +9,10 @@ export async function createPost(postData) {
 
     console.log("🟢 Prøver å opprette innlegg:", postData);
 
-    // Sørg for at API-et får riktig JSON-format
     const payload = {
         title: postData.title,
-        body: postData.body || "", // API krever ikke body, men det er best å sende en tom string hvis den mangler
-        tags: postData.tags ? postData.tags.split(",").map(tag => tag.trim()) : [], // Konverter tags til array
+        body: postData.body || "",
+        tags: postData.tags ? postData.tags.split(",").map(tag => tag.trim()) : [],
         media: postData.mediaUrl ? { url: postData.mediaUrl, alt: postData.mediaAlt || "Bilde" } : undefined
     };
 

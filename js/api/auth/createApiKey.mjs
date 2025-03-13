@@ -26,7 +26,7 @@ export async function createApiKey() {
         }
 
         const { data } = await response.json();
-        storage.save(API_KEY_STORAGE, data.key); // Lagre den nyeste API-nøkkelen
+        storage.save(API_KEY_STORAGE, data.key); 
 
         console.log("🟢 API-nøkkel lagret:", data.key);
         return data.key;

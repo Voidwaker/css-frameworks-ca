@@ -18,7 +18,6 @@ export async function getPosts() {
 
         const result = await response.json();
 
-        // ✅ Hent kun `data`-arrayen
         const posts = result.data;
 
         if (!Array.isArray(posts)) {

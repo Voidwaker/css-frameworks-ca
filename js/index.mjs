@@ -3,14 +3,13 @@ import { setloginFormListener } from "./handlers/login.mjs";
 import { setCreatePostFormListener } from "./handlers/createPost.mjs";
 import { setUpdatePostListener } from "./handlers/updatePost.mjs";
 import { displayProfile } from "./handlers/profile.mjs";
-import { getPosts } from "./api/posts/read.mjs"; // Henter innlegg
+import { getPosts } from "./api/posts/read.mjs"; 
 
 console.log("🚀 index.mjs is running!");
 
 const path = window.location.pathname;
 console.log("🌍 Current path:", path);
 
-// Sjekker om `path` er lik forventet
 if (path === "/feed/index.html") {
     console.log("✅ Direkt match med `/feed/index.html`");
 } else if (path.startsWith("/feed")) {
@@ -30,8 +29,7 @@ if (path.includes("register.html")) {
     displayProfile();
 } 
 
-// Midlertidig hardkodet test for å se om feilen ligger i `path.startsWith("/feed/")`
-if (true) {  // Endre tilbake til `path.startsWith("/feed/")` hvis dette fungerer
+if (true) {  
     console.log("🟢 Hardkodet test: Feed laster...");
 
     console.log("🟢 Kaller setCreatePostFormListener()...");

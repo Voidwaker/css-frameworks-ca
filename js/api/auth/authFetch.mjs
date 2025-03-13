@@ -3,7 +3,7 @@ import { API_KEY_STORAGE, API_TOKEN_STORAGE } from "../constants.mjs";
 
 export function headers() {
     const token = load(API_TOKEN_STORAGE);
-    const apiKey = load(API_KEY_STORAGE); // Bruk den nyeste API-nøkkelen
+    const apiKey = load(API_KEY_STORAGE); 
 
     if (!token || !apiKey) {
         console.error("❌ Token eller API-nøkkel mangler!");
