@@ -20,11 +20,13 @@ export async function createApiKey() {
         });
 
         if (!response.ok) {
-            throw new Error(`❌ Feil ved opprettelse av API-nøkkel: ${response.status}`);
+            const errorData = await response.json();
+            console.error("❌ Feil ved opprettelse av API-nøkkel:", errorData);
+            throw new Error(errorData.errors?.[0]?.message || `HTTP error! status: ${response.status}`);
         }
 
         const { data } = await response.json();
-        storage.save(API_KEY_STORAGE, data.key);
+        storage.save(API_KEY_STORAGE, data.key); // Lagre den nyeste API-nøkkelen
 
         console.log("🟢 API-nøkkel lagret:", data.key);
         return data.key;
