@@ -18,10 +18,18 @@ export function setCreatePostFormListener() {
         const formData = new FormData(event.target);
         const post = Object.fromEntries(formData.entries());
 
-        if (post.tags) {
-            post.tags = post.tags.split(",").map(tag => tag.trim());
-        } else {
+        if (post.tags && typeof post.tags === "string") {
+            post.tags = post.tags.split(',').map(tag => tag.trim());
+        }
+
+        if (!Array.isArray(post.tags)) {
             post.tags = [];
+        }
+
+        if (post.media && post.media.trim() !== "") {
+            post.media = { url: post.media.trim(), alt: "Post image" };
+        } else {
+            post.media = null;
         }
 
         console.log("📡 Sender innlegg til API:", post);
@@ -37,6 +45,7 @@ export function setCreatePostFormListener() {
         }
     });
 }
+
 
 
 

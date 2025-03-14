@@ -7,36 +7,41 @@ const method = "POST";
 export async function createPost(postData) {
     const createPostUrl = `${API_SOCIAL_URL}${action}`;
 
-    console.log("🟢 Prøver å opprette innlegg:", postData);
+    console.log("📡 Prøver å opprette innlegg:", postData);
 
-    const payload = {
-        title: postData.title,
-        body: postData.body || "",
-        tags: postData.tags ? postData.tags.split(",").map(tag => tag.trim()) : [],
-        media: postData.mediaUrl ? { url: postData.mediaUrl, alt: postData.mediaAlt || "Bilde" } : undefined
-    };
+    if (postData.tags && typeof postData.tags === "string") {
+        postData.tags = postData.tags.split(',').map(tag => tag.trim());
+    }
 
-    console.log("📡 Payload som sendes til API:", payload);
+    if (!Array.isArray(postData.tags)) {
+        postData.tags = [];
+    }
+
+    if (postData.media && typeof postData.media === "string" && postData.media.trim() !== "") {
+        postData.media = { url: postData.media.trim(), alt: "Post image" };
+    } else {
+        postData.media = null; 
+    }
 
     try {
         const response = await authFetch(createPostUrl, {
             method,
-            body: JSON.stringify(payload)
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(postData)
         });
 
-        console.log("📡 API respons mottatt:", response);
-
         if (!response.ok) {
-            const errorData = await response.json();
-            console.error("❌ API-feil:", errorData);
-            throw new Error(errorData.errors?.[0]?.message || `HTTP error! status: ${response.status}`);
+            const error = await response.json();
+            throw new Error(`HTTP error! status: ${response.status}, ${error.errors?.[0]?.message || "Unknown error"}`);
         }
 
         const post = await response.json();
         console.log("✅ Innlegg opprettet:", post);
         return post;
     } catch (error) {
-        console.error("❌ Feil under opprettelse av innlegg:", error);
+        console.error("❌ Feil ved opprettelse av innlegg:", error); 
         throw error;
     }
 }
