@@ -2,7 +2,7 @@ import { API_SOCIAL_URL } from "../constants.mjs";
 import { authFetch } from "../auth/authFetch.mjs";
 
 const action = "/posts";
-const method = "put";
+const method = "PUT";
 
 /**
  * Updates a post with the provided data.
