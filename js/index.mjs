@@ -3,45 +3,32 @@ import { setloginFormListener } from "./handlers/login.mjs";
 import { setCreatePostFormListener } from "./handlers/createPost.mjs";
 import { setUpdatePostListener } from "./handlers/updatePost.mjs";
 import { displayProfile } from "./handlers/profile.mjs";
-import { getPosts } from "./api/posts/read.mjs"; 
-
-console.log("🚀 index.mjs is running!");
+import { getPosts } from "./api/posts/read.mjs";
 
 const path = window.location.pathname;
-console.log("🌍 Current path:", path);
 
 if (path === "/feed/index.html") {
-    console.log("✅ Direkt match med `/feed/index.html`");
+
 } else if (path.startsWith("/feed")) {
-    console.log("✅ Path starter med `/feed`");
+
 } else {
-    console.log("❌ Ingen match for feed path.");
+    
 }
 
 if (path.includes("register.html")) {
-    console.log("🟢 Initializing register form...");
     setRegisterFormListener();
 } else if (path === "/" || path.includes("index.html")) {
-    console.log("🟢 Initializing login form...");
     setloginFormListener();
 } else if (path.includes("/profile")) { 
-    console.log("🟢 Loading profile...");
     displayProfile();
-} 
+}
 
 if (true) {  
-    console.log("🟢 Hardkodet test: Feed laster...");
+    setCreatePostFormListener();
+    setUpdatePostListener();
 
-    console.log("🟢 Kaller setCreatePostFormListener()...");
-    setCreatePostFormListener(); 
-
-    console.log("🟢 Kaller setUpdatePostListener()...");
-    setUpdatePostListener(); 
-
-    console.log("📡 Henter innlegg fra API...");
     getPosts()
         .then(posts => {
-            console.log("✅ API returnerte innlegg:", posts);
             if (!Array.isArray(posts)) {
                 console.error("❌ Feil: posts er ikke en array", posts);
                 return;
@@ -68,8 +55,6 @@ if (true) {
                         <p class="card-text">${post.body}</p>
                         ${post.media?.url ? `<img src="${post.media.url}" alt="${post.media.alt || 'Post image'}" class="img-fluid"/>` : ""}
                         <p class="card-text"><small class="text-muted">Posted by: ${post.author?.name || "Unknown"} on ${formattedDate}</small></p>
-                        <a href="/feed/index.html?id=${post.id}" class="btn btn-primary">Edit</a>
-                        <button class="btn btn-danger delete-post" data-id="${post.id}">Delete</button>
                     </div>
                 `;
 
@@ -80,7 +65,6 @@ if (true) {
             console.error("❌ Kunne ikke hente innlegg:", error);
         });
 }
-
 
     
     
