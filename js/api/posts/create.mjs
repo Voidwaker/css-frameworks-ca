@@ -4,10 +4,16 @@ import { authFetch } from "../auth/authFetch.mjs";
 const action = "/posts";
 const method = "POST";  
 
+/**
+ * Creates a new post and sends it to the API.
+ * @param {Object} postData - The post data containing title, body, tags, and media.
+ * @returns {Promise<Object>} The created post data.
+ * @throws {Error} If the API request fails.
+ */
 export async function createPost(postData) {
     const createPostUrl = `${API_SOCIAL_URL}${action}`;
 
-    console.log("📡 Prøver å opprette innlegg:", postData);
+    console.log("📡 Preparing to create post:", postData);
 
     if (postData.tags && typeof postData.tags === "string") {
         postData.tags = postData.tags.split(',').map(tag => tag.trim());
@@ -17,11 +23,14 @@ export async function createPost(postData) {
         postData.tags = [];
     }
 
-    if (postData.media && typeof postData.media === "string" && postData.media.trim() !== "") {
-        postData.media = { url: postData.media.trim(), alt: "Post image" };
+    // Validate media field
+    if (postData.media && typeof postData.media === "object" && postData.media.url) {
+        postData.media = { url: postData.media.url.trim(), alt: postData.media.alt || "User uploaded image" };
     } else {
-        postData.media = null; 
+        delete postData.media;
     }
+
+    console.log("📡 Final payload sent to API:", JSON.stringify(postData, null, 2));
 
     try {
         const response = await authFetch(createPostUrl, {
@@ -38,13 +47,17 @@ export async function createPost(postData) {
         }
 
         const post = await response.json();
-        console.log("✅ Innlegg opprettet:", post);
+        console.log("✅ Post created:", post);
         return post;
     } catch (error) {
-        console.error("❌ Feil ved opprettelse av innlegg:", error); 
+        console.error("❌ Error creating post:", error);
         throw error;
     }
 }
+
+
+
+
 
 
 
