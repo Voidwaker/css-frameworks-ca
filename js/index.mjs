@@ -5,22 +5,23 @@ import { setUpdatePostListener } from "./handlers/updatePost.mjs";
 import { displayProfile } from "./handlers/profile.mjs";
 import { getPosts } from "./api/posts/read.mjs";
 import { logout } from "./handlers/logout.mjs";
-import * as storage from "./storage/index.mjs"; // Importerer lagringsmodul
+import * as storage from "./storage/index.mjs"; 
 
 console.log("🚀 index.mjs is running!");
 
 const path = window.location.pathname;
-
-// 🚫 **Hindre tilgang til beskyttede sider uten innlogging**
 const token = storage.load("token");
+
 const restrictedPages = ["/feed/index.html", "/profile/index.html"];
 
 if (restrictedPages.includes(path) && !token) {
     console.warn("⛔ Access denied! Redirecting to login...");
+ 
+    alert("You must be logged in to access this page!");
+
     window.location.href = "/index.html";
 }
 
-// 🟢 **Sjekk hvilken side brukeren er på og kall riktig funksjon**
 if (path.includes("register.html")) {
     setRegisterFormListener();
 } else if (path === "/" || path.includes("index.html")) {
@@ -29,7 +30,6 @@ if (path.includes("register.html")) {
     displayProfile();
 }
 
-// 📝 **Kjør feed-relatert kode kun hvis brukeren er på feed-siden**
 if (path.includes("/feed")) {
     setCreatePostFormListener();
     setUpdatePostListener();
@@ -71,13 +71,13 @@ if (path.includes("/feed")) {
         });
 }
 
-// 🔴 **Legg til logout-event listener**
 document.addEventListener("DOMContentLoaded", () => {
     const logoutButton = document.getElementById("logoutBtn");
     if (logoutButton) {
         logoutButton.addEventListener("click", logout);
     }
 });
+
 
     
     
