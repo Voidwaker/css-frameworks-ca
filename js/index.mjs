@@ -4,26 +4,33 @@ import { setCreatePostFormListener } from "./handlers/createPost.mjs";
 import { setUpdatePostListener } from "./handlers/updatePost.mjs";
 import { displayProfile } from "./handlers/profile.mjs";
 import { getPosts } from "./api/posts/read.mjs";
+import { logout } from "./handlers/logout.mjs";
+import * as storage from "./storage/index.mjs"; // Importerer lagringsmodul
+
+console.log("🚀 index.mjs is running!");
 
 const path = window.location.pathname;
 
-if (path === "/feed/index.html") {
+// 🚫 **Hindre tilgang til beskyttede sider uten innlogging**
+const token = storage.load("token");
+const restrictedPages = ["/feed/index.html", "/profile/index.html"];
 
-} else if (path.startsWith("/feed")) {
-
-} else {
-    
+if (restrictedPages.includes(path) && !token) {
+    console.warn("⛔ Access denied! Redirecting to login...");
+    window.location.href = "/index.html";
 }
 
+// 🟢 **Sjekk hvilken side brukeren er på og kall riktig funksjon**
 if (path.includes("register.html")) {
     setRegisterFormListener();
 } else if (path === "/" || path.includes("index.html")) {
     setloginFormListener();
-} else if (path.includes("/profile")) { 
+} else if (path.includes("/profile")) {
     displayProfile();
 }
 
-if (true) {  
+// 📝 **Kjør feed-relatert kode kun hvis brukeren er på feed-siden**
+if (path.includes("/feed")) {
     setCreatePostFormListener();
     setUpdatePostListener();
 
@@ -34,7 +41,7 @@ if (true) {
                 return;
             }
             posts.sort((a, b) => new Date(b.created) - new Date(a.created));
-            
+
             const postsContainer = document.getElementById("posts");
             if (!postsContainer) {
                 console.warn("⚠ Ingen #posts-container funnet.");
@@ -48,7 +55,6 @@ if (true) {
 
                 const postElement = document.createElement("div");
                 postElement.className = "card mb-3";
-
                 postElement.innerHTML = `
                     <div class="card-body text-green">
                         <h5 class="card-title">${post.title}</h5>
@@ -57,7 +63,6 @@ if (true) {
                         <p class="card-text"><small class="text-muted">Posted by: ${post.author?.name || "Unknown"} on ${formattedDate}</small></p>
                     </div>
                 `;
-
                 postsContainer.appendChild(postElement);
             });
         })
@@ -66,7 +71,14 @@ if (true) {
         });
 }
 
-    
+// 🔴 **Legg til logout-event listener**
+document.addEventListener("DOMContentLoaded", () => {
+    const logoutButton = document.getElementById("logoutBtn");
+    if (logoutButton) {
+        logoutButton.addEventListener("click", logout);
+    }
+});
+
     
     
 
