@@ -5,7 +5,7 @@ import { setUpdatePostListener } from "./handlers/updatePost.mjs";
 import { displayProfile } from "./handlers/profile.mjs";
 import { getPosts } from "./api/posts/read.mjs";
 import { logout } from "./handlers/logout.mjs";
-import * as storage from "./storage/index.mjs"; 
+import * as storage from "./storage/index.mjs";
 
 console.log("🚀 index.mjs is running!");
 
@@ -16,21 +16,23 @@ const restrictedPages = ["/feed/index.html", "/profile/index.html"];
 
 if (restrictedPages.includes(path) && !token) {
     console.warn("⛔ Access denied! Redirecting to login...");
- 
-    alert("You must be logged in to access this page!");
 
-    window.location.href = "/index.html";
+    alert("❌ You must be logged in to access this page! Redirecting to login...");
+
+    setTimeout(() => {
+        window.location.href = "/index.html";
+    }, 500);
 }
 
 if (path.includes("register.html")) {
     setRegisterFormListener();
 } else if (path === "/" || path.includes("index.html")) {
     setloginFormListener();
-} else if (path.includes("/profile")) {
+} else if (path.includes("/profile") && token) {
     displayProfile();
 }
 
-if (path.includes("/feed")) {
+if (path.includes("/feed") && token) {
     setCreatePostFormListener();
     setUpdatePostListener();
 
@@ -74,9 +76,14 @@ if (path.includes("/feed")) {
 document.addEventListener("DOMContentLoaded", () => {
     const logoutButton = document.getElementById("logoutBtn");
     if (logoutButton) {
-        logoutButton.addEventListener("click", logout);
+        logoutButton.addEventListener("click", () => {
+            logout();
+            alert("✅ Successfully logged out!");
+            window.location.href = "/index.html";
+        });
     }
 });
+
 
 
     
