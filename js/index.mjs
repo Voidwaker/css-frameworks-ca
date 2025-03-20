@@ -11,10 +11,10 @@ import * as storage from "./storage/index.mjs";
 console.log("🚀 index.mjs is running!");
 
 const path = window.location.pathname;
+const loggedInUser = storage.load("profile")?.name;
 
 setTimeout(() => {
     const token = storage.load("token");
-
     const restrictedPages = ["/feed/index.html", "/profile/index.html"];
     if (restrictedPages.includes(path) && !token) {
         console.warn("⛔ Access denied! Redirecting to login...");
@@ -41,7 +41,7 @@ if (path.includes("register.html")) {
     displayProfile();
 }
 
-if (path.includes("/feed")) {
+if (path.includes("/feed") || path.includes("/profile")) {
     setCreatePostFormListener();
     setUpdatePostListener();
 
@@ -64,6 +64,14 @@ if (path.includes("/feed")) {
                 const createdAt = new Date(post.created);
                 const formattedDate = isNaN(createdAt.getTime()) ? "Invalid date" : createdAt.toLocaleString();
 
+                const isProfilePage = path.includes("/profile");
+                const isOwner = post.author?.name === loggedInUser;
+
+                const editDeleteButtons = isProfilePage && isOwner
+                    ? `<button class="btn btn-primary edit-post" data-id="${post.id}" data-title="${post.title}" data-body="${post.body}" data-media="${post.media?.url || ''}">Edit</button>
+                       <button class="btn btn-danger delete-post" data-id="${post.id}">Delete</button>`
+                    : "";
+
                 const postElement = document.createElement("div");
                 postElement.className = "card mb-3";
                 postElement.innerHTML = `
@@ -72,23 +80,23 @@ if (path.includes("/feed")) {
                         <p class="card-text">${post.body}</p>
                         ${post.media?.url ? `<img src="${post.media.url}" alt="${post.media.alt || 'Post image'}" class="img-fluid"/>` : ""}
                         <p class="card-text"><small class="text-muted">Posted by: ${post.author?.name || "Unknown"} on ${formattedDate}</small></p>
-                        <button class="btn btn-primary edit-post" data-id="${post.id}" data-title="${post.title}" data-body="${post.body}" data-media="${post.media?.url || ''}">Edit</button>
+                        ${editDeleteButtons} <!-- Knappene vises kun hvis vi er på profilsiden og eier innlegget -->
                     </div>
                 `;
                 postsContainer.appendChild(postElement);
             });
 
-            // ✅ Legger til event listeners for "Edit"-knapper
-            document.querySelectorAll(".edit-post").forEach(button => {
-                button.addEventListener("click", openEditModal);
-            });
+            if (isProfilePage) {
+                document.querySelectorAll(".edit-post").forEach(button => {
+                    button.addEventListener("click", openEditModal);
+                });
+            }
         })
         .catch(error => {
             console.error("❌ Kunne ikke hente innlegg:", error);
         });
 }
 
-// ✅ Funksjon for å åpne Edit Post Modal og fylle ut eksisterende data
 function openEditModal(event) {
     const button = event.target;
     const postId = button.getAttribute("data-id");
@@ -105,7 +113,6 @@ function openEditModal(event) {
     editModal.show();
 }
 
-// ✅ Håndterer oppdatering av innlegg når "Save Changes" trykkes
 document.addEventListener("DOMContentLoaded", () => {
     const editPostForm = document.getElementById("editPostForm");
 
@@ -129,7 +136,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 const response = await updatePost(updatedPost);
                 console.log("✅ Post updated:", response);
 
-                // ✅ Lukk modal og oppdater UI
                 const editModal = bootstrap.Modal.getInstance(document.getElementById("editPostModal"));
                 editModal.hide();
                 alert("Post updated successfully!");
@@ -141,7 +147,6 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // ✅ Logout-knapp
     const logoutButton = document.getElementById("logoutBtn");
     if (logoutButton) {
         logoutButton.addEventListener("click", () => {
