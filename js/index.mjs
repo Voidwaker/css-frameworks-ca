@@ -10,29 +10,37 @@ import * as storage from "./storage/index.mjs";
 console.log("🚀 index.mjs is running!");
 
 const path = window.location.pathname;
-const token = storage.load("token");
 
-const restrictedPages = ["/feed/index.html", "/profile/index.html"];
+setTimeout(() => {
+    const token = storage.load("token");
 
-if (restrictedPages.includes(path) && !token) {
-    console.warn("⛔ Access denied! Redirecting to login...");
+    const restrictedPages = ["/feed/index.html", "/profile/index.html"];
+    if (restrictedPages.includes(path) && !token) {
+        console.warn("⛔ Access denied! Redirecting to login...");
 
-    alert("❌ You must be logged in to access this page! Redirecting to login...");
+        document.body.innerHTML = `
+            <div style="position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background-color: red; color: white; padding: 10px; border-radius: 5px; z-index: 1000;">
+                ❌ You must be logged in to access this page! Redirecting...
+            </div>
+        `;
 
-    setTimeout(() => {
-        window.location.href = "/index.html";
-    }, 500);
-}
+        setTimeout(() => {
+            window.location.href = "/index.html";
+        }, 1000);
+
+        throw new Error("Unauthorized access: Redirecting...");
+    }
+}, 100); 
 
 if (path.includes("register.html")) {
     setRegisterFormListener();
 } else if (path === "/" || path.includes("index.html")) {
     setloginFormListener();
-} else if (path.includes("/profile") && token) {
+} else if (path.includes("/profile")) {
     displayProfile();
 }
 
-if (path.includes("/feed") && token) {
+if (path.includes("/feed")) {
     setCreatePostFormListener();
     setUpdatePostListener();
 
@@ -78,12 +86,10 @@ document.addEventListener("DOMContentLoaded", () => {
     if (logoutButton) {
         logoutButton.addEventListener("click", () => {
             logout();
-            alert("✅ Successfully logged out!");
             window.location.href = "/index.html";
         });
     }
 });
-
 
 
     
