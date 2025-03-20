@@ -1,63 +1,54 @@
 import { updatePost } from "../api/posts/update.mjs";
 
 /**
+ * Opens the edit modal and fills it with post data.
+ * @param {Object} post - The post data.
+ */
+export function openEditPostModal(post) {
+    document.getElementById("editPostId").value = post.id;
+    document.getElementById("editPostTitle").value = post.title;
+    document.getElementById("editPostBody").value = post.body;
+    document.getElementById("editPostMedia").value = post.media?.url || "";
+
+    const modal = new bootstrap.Modal(document.getElementById("editPostModal"));
+    modal.show();
+}
+
+/**
  * Sets up an event listener for the update form.
- * 
- * This function locates a form with the ID `editPost` and attaches a `submit` event listener to it.
- * When the form is submitted, the function retrieves the post ID from the URL, gathers the data from the form,
- * and sends a request to update the post. If the update is successful, a success message is displayed.
- * If an error occurs, an error message is displayed.
- * 
- * @example
- * 
- * // Expected URL format: http://example.com/feed/index.html?id=123
- * 
- * <form id="editPost">
- *   <input name="title" type="text" />
- *   <textarea name="body"></textarea>
- *   <button type="submit">Update Post</button>
- * </form>
- * 
- * // JavaScript
- * setUpdatePostListener();
  */
 export function setUpdatePostListener() {
-    const form = document.querySelector("#editPost");
+    const form = document.getElementById("editPostForm");
 
-    const url = new URL(location.href);
-    const id = url.searchParams.get("id");
-
-    if (form) {
-        form.addEventListener("submit", (event) => {
-            event.preventDefault();
-            const form = event.target;
-            const formData = new FormData(form);
-            const post = Object.fromEntries(formData.entries());
-            post.id = id;
-
-            if (post.tags) {
-                post.tags = post.tags.split(',').map(tag => tag.trim());
-            } else {
-                post.tags = [];
-            }
-
-            if (!post.id) {
-                console.error("Post ID is missing!");
-                alert("Post ID is required.");
-                return;
-            }
-
-            updatePost(post)
-                .then(response => {
-                    alert("Post updated successfully!");
-                })
-                .catch(error => {
-                    console.error('Error updating post:', error);
-                    alert("Error updating post: " + (error.message || JSON.stringify(error)));
-                });
-        });
-    } else {
-        console.error('Form not found!');
+    if (!form) {
+        console.error("❌ Edit post form not found!");
+        return;
     }
+
+    form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+
+        const id = document.getElementById("editPostId").value;
+        const title = document.getElementById("editPostTitle").value;
+        const body = document.getElementById("editPostBody").value;
+        const mediaUrl = document.getElementById("editPostMedia").value;
+
+        const postData = {
+            id,
+            title,
+            body,
+            media: mediaUrl ? { url: mediaUrl, alt: "Updated post image" } : null
+        };
+
+        try {
+            await updatePost(postData);
+            alert("✅ Post updated successfully!");
+            location.reload(); // Refresh the page to see changes
+        } catch (error) {
+            console.error("❌ Error updating post:", error);
+            alert("Error updating post: " + error.message);
+        }
+    });
 }
+
 

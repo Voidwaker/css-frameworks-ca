@@ -4,6 +4,7 @@ import { setCreatePostFormListener } from "./handlers/createPost.mjs";
 import { setUpdatePostListener } from "./handlers/updatePost.mjs";
 import { displayProfile } from "./handlers/profile.mjs";
 import { getPosts } from "./api/posts/read.mjs";
+import { updatePost } from "./api/posts/update.mjs"; 
 import { logout } from "./handlers/logout.mjs";
 import * as storage from "./storage/index.mjs";
 
@@ -71,9 +72,15 @@ if (path.includes("/feed")) {
                         <p class="card-text">${post.body}</p>
                         ${post.media?.url ? `<img src="${post.media.url}" alt="${post.media.alt || 'Post image'}" class="img-fluid"/>` : ""}
                         <p class="card-text"><small class="text-muted">Posted by: ${post.author?.name || "Unknown"} on ${formattedDate}</small></p>
+                        <button class="btn btn-primary edit-post" data-id="${post.id}" data-title="${post.title}" data-body="${post.body}" data-media="${post.media?.url || ''}">Edit</button>
                     </div>
                 `;
                 postsContainer.appendChild(postElement);
+            });
+
+            // ✅ Legger til event listeners for "Edit"-knapper
+            document.querySelectorAll(".edit-post").forEach(button => {
+                button.addEventListener("click", openEditModal);
             });
         })
         .catch(error => {
@@ -81,7 +88,60 @@ if (path.includes("/feed")) {
         });
 }
 
+// ✅ Funksjon for å åpne Edit Post Modal og fylle ut eksisterende data
+function openEditModal(event) {
+    const button = event.target;
+    const postId = button.getAttribute("data-id");
+    const postTitle = button.getAttribute("data-title");
+    const postBody = button.getAttribute("data-body");
+    const postMedia = button.getAttribute("data-media");
+
+    document.getElementById("editPostId").value = postId;
+    document.getElementById("editPostTitle").value = postTitle;
+    document.getElementById("editPostBody").value = postBody;
+    document.getElementById("editPostMedia").value = postMedia;
+
+    const editModal = new bootstrap.Modal(document.getElementById("editPostModal"));
+    editModal.show();
+}
+
+// ✅ Håndterer oppdatering av innlegg når "Save Changes" trykkes
 document.addEventListener("DOMContentLoaded", () => {
+    const editPostForm = document.getElementById("editPostForm");
+
+    if (editPostForm) {
+        editPostForm.addEventListener("submit", async (event) => {
+            event.preventDefault();
+
+            const postId = document.getElementById("editPostId").value;
+            const title = document.getElementById("editPostTitle").value;
+            const body = document.getElementById("editPostBody").value;
+            const media = document.getElementById("editPostMedia").value;
+
+            const updatedPost = {
+                id: postId,
+                title,
+                body,
+                media: media ? { url: media, alt: "Updated post image" } : null,
+            };
+
+            try {
+                const response = await updatePost(updatedPost);
+                console.log("✅ Post updated:", response);
+
+                // ✅ Lukk modal og oppdater UI
+                const editModal = bootstrap.Modal.getInstance(document.getElementById("editPostModal"));
+                editModal.hide();
+                alert("Post updated successfully!");
+                window.location.reload();
+            } catch (error) {
+                console.error("❌ Error updating post:", error);
+                alert("Error updating post: " + error.message);
+            }
+        });
+    }
+
+    // ✅ Logout-knapp
     const logoutButton = document.getElementById("logoutBtn");
     if (logoutButton) {
         logoutButton.addEventListener("click", () => {
