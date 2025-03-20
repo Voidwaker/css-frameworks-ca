@@ -23,7 +23,7 @@ export function setloginFormListener() {
 
         if (result) {
             alert("Innlogging vellykket!");
-            window.location.href = "/feed/index.html"; 
+            window.location.href = "/profile/index.html"; 
         } else {
             alert("❌ Innlogging feilet. Sjekk konsollen for mer info.");
         }
