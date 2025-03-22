@@ -12,10 +12,15 @@ import * as storage from "../../storage/index.mjs";
  * @param {string} profile.email - The user's email address (must be a Noroff email).
  * @param {string} profile.password - The user's password.
  * @returns {Promise<Object|null>} The registered user data if successful, otherwise null.
+ *
+ * @example
+ * await register({
+ *   name: "student123",
+ *   email: "student123@noroff.no",
+ *   password: "SuperSecret123"
+ * });
  */
 export async function register(profile) {
-    console.log("📡 Sending registration request...");
-
     try {
         const response = await fetch(API_REGISTER, {
             method: "POST",
@@ -25,29 +30,19 @@ export async function register(profile) {
 
         if (!response.ok) {
             const errorData = await response.json();
-            console.error("❌ Registration failed:", errorData);
             throw new Error(errorData.message || `HTTP Error ${response.status}`);
         }
 
         const { data } = await response.json();
-        console.log("✅ Registration successful! User:", data);
 
-        console.log("🔐 Logging in automatically...");
         const loggedInUser = await login(profile.email, profile.password);
-
-        if (!loggedInUser) {
-            console.error("❌ Auto-login failed after registration.");
-            return null;
-        }
-
-        console.log("✅ Auto-login successful!", loggedInUser);
+        if (!loggedInUser) return null;
 
         storage.save(API_PROFILE_STORAGE, loggedInUser);
         storage.save(API_TOKEN_STORAGE, loggedInUser.accessToken);
 
         await createApiKey();
 
-        console.log("⏳ Redirecting to profile page...");
         setTimeout(() => {
             window.location.assign("/profile/index.html");
         }, 500);
