@@ -27,7 +27,6 @@ export async function deletePost(postId) {
             throw new Error(errorData.errors?.[0]?.message || `HTTP error! Status: ${response.status}`);
         }
 
-        // Visuelt fjerner posten fra DOM
         const postElement = document.querySelector(`[data-post-id="${postId}"]`);
         if (postElement) {
             postElement.classList.add("fade-out");
@@ -41,7 +40,7 @@ export async function deletePost(postId) {
 }
 
 /**
- * Displays a confirmation alert and reloads the page after 2 seconds.
+ * Displays a confirmation alert and reloads the page after 1 seconds.
  */
 function showDeleteConfirmation() {
     const confirmation = document.createElement("div");
@@ -56,6 +55,6 @@ function showDeleteConfirmation() {
             confirmation.remove();
             location.reload();
         }, 500);
-    }, 2000);
+    }, 1000);
 }
 

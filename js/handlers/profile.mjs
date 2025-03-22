@@ -1,19 +1,17 @@
 import { getProfile } from "../api/profile/getProfile.mjs";
-import { deletePost } from "../api/posts/delete.mjs"; 
-import { load } from "../storage/index.mjs";
-import { updatePost } from "../api/posts/update.mjs"; // Import for oppdatering
+import { deletePost } from "../api/posts/delete.mjs";
+import { updatePost } from "../api/posts/update.mjs";
 
+/**
+ * Fetches and displays the current user's profile and posts.
+ * Populates DOM with profile details and user posts.
+ */
 export async function displayProfile() {
-    console.log("🔵 displayProfile() called!");
-
     const profile = await getProfile();
 
     if (!profile) {
-        console.error("❌ Ingen profildata tilgjengelig.");
         return;
     }
-
-    console.log("✅ Profildata hentet:", profile);
 
     document.getElementById("profile-username").textContent = `@${profile.name}`;
     document.getElementById("profile-avatar").src = profile.avatar?.url || "/assets/default-avatar.jpg";
@@ -24,6 +22,11 @@ export async function displayProfile() {
     displayUserPosts(profile.posts);
 }
 
+/**
+ * Displays the logged-in user's posts with edit/delete buttons.
+ * Binds click events to allow in-place editing and deletion.
+ * @param {Array} posts - Array of user post objects.
+ */
 function displayUserPosts(posts) {
     const postsContainer = document.getElementById("user-posts");
     postsContainer.innerHTML = "";
@@ -37,7 +40,7 @@ function displayUserPosts(posts) {
         const postElement = document.createElement("div");
         postElement.className = "card mb-3";
         postElement.innerHTML = `
-            <div class="card-body text-green">
+            <div class="card-body text-green" data-post-id="${post.id}">
                 <h5 class="card-title">${post.title}</h5>
                 <p class="card-text">${post.body}</p>
                 ${post.media?.url ? `<img src="${post.media.url}" alt="${post.media.alt || 'Post image'}" class="img-fluid"/>` : ""}
@@ -50,28 +53,25 @@ function displayUserPosts(posts) {
     });
 
     document.querySelectorAll(".delete-post").forEach(button => {
-        button.addEventListener("click", async function() {
+        button.addEventListener("click", async function () {
             const postId = this.getAttribute("data-id");
-            console.log(`🗑️ Sletter innlegg med ID: ${postId}`);
 
             try {
                 await deletePost(postId);
                 alert("Post deleted successfully!");
-                displayUserPosts(posts.filter(p => p.id !== postId)); 
+                displayProfile(); // Refresh posts
             } catch (error) {
-                console.error("❌ Feil ved sletting av innlegg:", error);
+                alert("Error deleting post.");
             }
         });
     });
 
     document.querySelectorAll(".edit-post").forEach(button => {
-        button.addEventListener("click", function() {
+        button.addEventListener("click", function () {
             const postId = this.getAttribute("data-id");
             const title = this.getAttribute("data-title");
             const body = this.getAttribute("data-body");
             const media = this.getAttribute("data-media");
-
-            console.log(`✏️ Åpner redigeringsmodal for post ID: ${postId}`);
 
             document.getElementById("editPostId").value = postId;
             document.getElementById("editTitle").value = title;
@@ -83,24 +83,30 @@ function displayUserPosts(posts) {
         });
     });
 
-    document.getElementById("saveEdit").addEventListener("click", async function() {
+    document.getElementById("saveEdit").addEventListener("click", async function () {
         const postId = document.getElementById("editPostId").value;
         const title = document.getElementById("editTitle").value;
         const body = document.getElementById("editBody").value;
         const media = document.getElementById("editMedia").value;
 
-        console.log(`💾 Lagrer oppdatering for post ID: ${postId}`);
-
         try {
-            await updatePost({ id: postId, title, body, media: media ? { url: media, alt: "Updated post image" } : null });
+            await updatePost({
+                id: postId,
+                title,
+                body,
+                media: media ? { url: media, alt: "Updated post image" } : null,
+            });
+
             alert("Post updated successfully!");
             displayProfile();
             bootstrap.Modal.getInstance(document.getElementById("editPostModal")).hide();
         } catch (error) {
-            console.error("❌ Feil ved oppdatering av innlegg:", error);
+            alert("Error updating post.");
         }
     });
 }
 
+// 🔁 Kjør visning av profilen ved lasting av scriptet
 displayProfile();
+
 
