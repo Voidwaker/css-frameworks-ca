@@ -1,11 +1,24 @@
 import { API_CREATE_API_KEY, API_KEY_STORAGE, API_TOKEN_STORAGE } from "../constants.mjs";
 import * as storage from "../../storage/index.mjs";
 
+/**
+ * Creates a new API key for the currently authenticated user.
+ *
+ * The access token must already be stored in localStorage.
+ * On success, the new API key is saved to localStorage and returned.
+ *
+ * @async
+ * @returns {Promise<string|null>} The newly created API key, or null if creation fails.
+ *
+ * @example
+ * const apiKey = await createApiKey();
+ * console.log(apiKey); // "b1c8e1aa-...."
+ */
 export async function createApiKey() {
     const token = storage.load(API_TOKEN_STORAGE);
 
     if (!token) {
-        console.error("❌ Ingen accessToken funnet. Brukeren må logge inn først.");
+        console.error("❌ No access token found. User must be logged in.");
         return null;
     }
 
@@ -21,17 +34,14 @@ export async function createApiKey() {
 
         if (!response.ok) {
             const errorData = await response.json();
-            console.error("❌ Feil ved opprettelse av API-nøkkel:", errorData);
             throw new Error(errorData.errors?.[0]?.message || `HTTP error! status: ${response.status}`);
         }
 
         const { data } = await response.json();
-        storage.save(API_KEY_STORAGE, data.key); 
-
-        console.log("🟢 API-nøkkel lagret:", data.key);
+        storage.save(API_KEY_STORAGE, data.key);
         return data.key;
     } catch (error) {
-        console.error("❌ Kunne ikke opprette API-nøkkel:", error);
+        console.error("❌ Failed to create API key:", error);
         return null;
     }
 }
