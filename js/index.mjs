@@ -3,24 +3,23 @@ import { setloginFormListener } from "./handlers/login.mjs";
 import { setCreatePostFormListener } from "./handlers/createPost.mjs";
 import { setUpdatePostListener } from "./handlers/updatePost.mjs";
 import { displayProfile } from "./handlers/profile.mjs";
-import { getPosts } from "./api/posts/read.mjs";
+import { getPosts, getPost } from "./api/posts/read.mjs";
 import { updatePost } from "./api/posts/update.mjs";
 import { logout } from "./handlers/logout.mjs";
 import * as storage from "./storage/index.mjs";
-
-console.log("🚀 index.mjs is running!");
 
 const path = window.location.pathname;
 const loggedInUser = storage.load("profile")?.name;
 let allPosts = [];
 
+/**
+ * Redirects user if trying to access a protected route without being logged in.
+ */
 setTimeout(() => {
 	const token = storage.load("token");
 	const restrictedPages = ["/feed/index.html", "/profile/index.html"];
 
 	if (restrictedPages.includes(path) && !token) {
-		console.warn("⛔ Access denied! Redirecting to login...");
-
 		document.body.innerHTML = `
 			<div style="position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background-color: red; color: white; padding: 10px; border-radius: 5px; z-index: 1000;">
 				❌ You must be logged in to access this page! Redirecting...
@@ -35,6 +34,7 @@ setTimeout(() => {
 	}
 }, 100);
 
+// Initialize correct handler per route
 if (path.includes("register.html")) {
 	setRegisterFormListener();
 } else if (path === "/" || path.includes("index.html")) {
@@ -43,6 +43,7 @@ if (path.includes("register.html")) {
 	displayProfile();
 }
 
+// Fetch and render posts on feed or profile page
 if (path.includes("/feed") || path.includes("/profile")) {
 	setCreatePostFormListener();
 	setUpdatePostListener();
@@ -53,7 +54,6 @@ if (path.includes("/feed") || path.includes("/profile")) {
 				console.error("❌ Feil: posts er ikke en array", posts);
 				return;
 			}
-
 			allPosts = posts;
 			renderPosts(allPosts);
 			initSearchAndFilter();
@@ -63,15 +63,15 @@ if (path.includes("/feed") || path.includes("/profile")) {
 		});
 }
 
+/**
+ * Renders posts to the page.
+ * @param {Array<Object>} posts - Array of post objects to render.
+ */
 function renderPosts(posts) {
 	const postsContainer = document.getElementById("posts");
-	if (!postsContainer) {
-		console.warn("⚠ Ingen #posts-container funnet.");
-		return;
-	}
+	if (!postsContainer) return;
 
 	postsContainer.innerHTML = "";
-
 	const isProfilePage = path.includes("/profile");
 
 	posts.forEach(post => {
@@ -92,11 +92,15 @@ function renderPosts(posts) {
 				<p class="card-text">${post.body}</p>
 				${post.media?.url ? `<img src="${post.media.url}" alt="${post.media.alt || 'Post image'}" class="img-fluid"/>` : ""}
 				<p class="card-text"><small class="text-muted">Posted by: ${post.author?.name || "Unknown"} on ${formattedDate}</small></p>
+				<button class="btn btn-outline-info view-post" data-id="${post.id}">View</button>
 				${editDeleteButtons}
 			</div>
 		`;
-
 		postsContainer.appendChild(postElement);
+	});
+
+	document.querySelectorAll(".view-post").forEach(button => {
+		button.addEventListener("click", openViewModal);
 	});
 
 	if (isProfilePage) {
@@ -106,29 +110,31 @@ function renderPosts(posts) {
 	}
 }
 
+/**
+ * Initializes listeners for the search and filter inputs.
+ */
 function initSearchAndFilter() {
 	const searchInput = document.getElementById("searchPosts");
 	const filterSelect = document.getElementById("filterPosts");
 
 	if (searchInput) {
-		searchInput.addEventListener("input", () => {
-			filterAndRender();
-		});
+		searchInput.addEventListener("input", filterAndRender);
 	}
-
 	if (filterSelect) {
-		filterSelect.addEventListener("change", () => {
-			filterAndRender();
-		});
+		filterSelect.addEventListener("change", filterAndRender);
 	}
 }
 
+/**
+ * Filters and sorts the list of posts and re-renders the result.
+ */
 function filterAndRender() {
 	const searchValue = document.getElementById("searchPosts")?.value?.toLowerCase() || "";
 	const filterValue = document.getElementById("filterPosts")?.value || "newest";
 
 	let filteredPosts = allPosts.filter(post =>
-		post.title.toLowerCase().includes(searchValue) || post.body?.toLowerCase().includes(searchValue)
+		post.title.toLowerCase().includes(searchValue) ||
+		post.body?.toLowerCase().includes(searchValue)
 	);
 
 	switch (filterValue) {
@@ -141,24 +147,44 @@ function filterAndRender() {
 		case "popular":
 			filteredPosts.sort((a, b) => (b._count?.reactions || 0) - (a._count?.reactions || 0));
 			break;
-		default:
-			break;
 	}
 
 	renderPosts(filteredPosts);
 }
 
+/**
+ * Opens modal and displays full post content.
+ * @param {Event} event
+ */
+async function openViewModal(event) {
+	const postId = event.target.getAttribute("data-id");
+	const post = await getPost(postId);
+	if (!post) return;
+
+	document.getElementById("viewPostTitle").textContent = post.title;
+	document.getElementById("viewPostBody").textContent = post.body;
+	document.getElementById("viewPostAuthor").textContent = post.author?.name || "Unknown";
+	document.getElementById("viewPostDate").textContent = new Date(post.created).toLocaleString();
+
+	const mediaContainer = document.getElementById("viewPostMedia");
+	mediaContainer.innerHTML = post.media?.url
+		? `<img src="${post.media.url}" class="img-fluid" alt="${post.media.alt || 'Post image'}">`
+		: "";
+
+	const modal = new bootstrap.Modal(document.getElementById("viewPostModal"));
+	modal.show();
+}
+
+/**
+ * Fills and opens the modal with data from the selected post.
+ * @param {Event} event - The click event from the Edit button.
+ */
 function openEditModal(event) {
 	const button = event.target;
-	const postId = button.getAttribute("data-id");
-	const postTitle = button.getAttribute("data-title");
-	const postBody = button.getAttribute("data-body");
-	const postMedia = button.getAttribute("data-media");
-
-	document.getElementById("editPostId").value = postId;
-	document.getElementById("editPostTitle").value = postTitle;
-	document.getElementById("editPostBody").value = postBody;
-	document.getElementById("editPostMedia").value = postMedia;
+	document.getElementById("editPostId").value = button.getAttribute("data-id");
+	document.getElementById("editPostTitle").value = button.getAttribute("data-title");
+	document.getElementById("editPostBody").value = button.getAttribute("data-body");
+	document.getElementById("editPostMedia").value = button.getAttribute("data-media");
 
 	const editModal = new bootstrap.Modal(document.getElementById("editPostModal"));
 	editModal.show();
@@ -184,15 +210,11 @@ document.addEventListener("DOMContentLoaded", () => {
 			};
 
 			try {
-				const response = await updatePost(updatedPost);
-				console.log("✅ Post updated:", response);
-
-				const editModal = bootstrap.Modal.getInstance(document.getElementById("editPostModal"));
-				editModal.hide();
+				await updatePost(updatedPost);
 				alert("Post updated successfully!");
+				bootstrap.Modal.getInstance(document.getElementById("editPostModal")).hide();
 				window.location.reload();
 			} catch (error) {
-				console.error("❌ Error updating post:", error);
 				alert("Error updating post: " + error.message);
 			}
 		});
@@ -207,7 +229,6 @@ document.addEventListener("DOMContentLoaded", () => {
 	}
 });
 
-    
     
 
     
