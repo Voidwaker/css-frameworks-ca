@@ -1,14 +1,12 @@
 import { register } from "../api/auth/register.mjs";
 
 /**
- * Initializes event listener for the registration form.
- * 
- * When the form is submitted, this function collects user input, 
- * attempts to register the user, logs them in automatically, 
- * and redirects to the profile page.
- * 
+ * Sets up an event listener for the registration form.
+ *
+ * On submit, it gathers the input values, creates a profile object,
+ * and calls the register function to create the user and log in.
+ *
  * @function
- * @returns {void}
  */
 export function setRegisterFormListener() {
     const form = document.querySelector("#registerForm");
@@ -27,9 +25,9 @@ export function setRegisterFormListener() {
         try {
             await register(profile);
         } catch (error) {
-            console.error("❌ Registration failed:", error);
             alert("❌ Registration failed. Please try again.");
         }
     });
 }
+
 
