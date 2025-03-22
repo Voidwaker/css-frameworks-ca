@@ -1,4 +1,4 @@
-import { load } from "../../storage/index.mjs";
+import { load, remove } from "../../storage/index.mjs";
 import { API_KEY_STORAGE, API_TOKEN_STORAGE } from "../constants.mjs";
 
 /**
@@ -8,18 +8,18 @@ import { API_KEY_STORAGE, API_TOKEN_STORAGE } from "../constants.mjs";
  * @returns {Object} Headers object for fetch.
  */
 export function headers() {
-    const token = load(API_TOKEN_STORAGE);
-    const apiKey = load(API_KEY_STORAGE); 
+	const token = load(API_TOKEN_STORAGE);
+	const apiKey = load(API_KEY_STORAGE);
 
-    if (!token || !apiKey) {
-        return {};
-    }
+	if (!token || !apiKey) {
+		return {};
+	}
 
-    return {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`,
-        "X-Noroff-API-Key": apiKey
-    };
+	return {
+		"Content-Type": "application/json",
+		"Authorization": `Bearer ${token}`,
+		"X-Noroff-API-Key": apiKey
+	};
 }
 
 /**
@@ -31,29 +31,49 @@ export function headers() {
  * @throws {Error} Throws if the fetch fails or the response is not OK.
  */
 export async function authFetch(url, options = {}) {
-    const requestOptions = {
-        ...options,
-        headers: {
-            ...headers(),
-            ...options.headers
-        }
-    };
+	const requestOptions = {
+		...options,
+		headers: {
+			...headers(),
+			...options.headers
+		}
+	};
 
-    try {
-        const response = await fetch(url, requestOptions);
+	try {
+		const response = await fetch(url, requestOptions);
 
-        if (!response.ok) {
-            const errorData = await response.json();
-            throw new Error(`HTTP error! status: ${response.status}, message: ${errorData?.errors?.[0]?.message || "Unknown error"}`);
-        }
+		if (!response.ok) {
+			const errorData = await response.json();
+			const status = response.status;
+			const message = errorData?.errors?.[0]?.message || "Unknown error";
 
-        return response;
-    } catch (error) {
-        console.error("❌ Fetch error:", error);
-        throw error;
-    }
+			if (status === 401) {
+				remove(API_TOKEN_STORAGE);
+				remove(API_KEY_STORAGE);
+				remove("profile");
+
+				document.body.innerHTML = `
+					<div style="position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background-color: red; color: white; padding: 10px; border-radius: 5px; z-index: 1000;">
+						❌ You must be logged in to access this page. Redirecting to login...
+					</div>
+				`;
+
+				setTimeout(() => {
+					window.location.href = "/index.html";
+				}, 1500);
+
+				return;
+			}
+
+			throw new Error(`HTTP error! status: ${status}, message: ${message}`);
+		}
+
+		return response;
+	} catch (error) {
+		console.error("❌ Fetch error:", error);
+		throw error;
+	}
 }
-
 
 
  

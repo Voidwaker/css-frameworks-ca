@@ -15,52 +15,46 @@ let allPosts = [];
 /**
  * Redirects user if trying to access a protected route without being logged in.
  */
-setTimeout(() => {
-	const token = storage.load("token");
-	const restrictedPages = ["/feed/index.html", "/profile/index.html"];
+const token = storage.load("token");
+const restrictedPages = ["/feed/index.html", "/profile/index.html"];
 
-	if (restrictedPages.includes(path) && !token) {
-		document.body.innerHTML = `
-			<div style="position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background-color: red; color: white; padding: 10px; border-radius: 5px; z-index: 1000;">
-				❌ You must be logged in to access this page! Redirecting...
-			</div>
-		`;
+if (restrictedPages.includes(path) && !token) {
+	document.body.innerHTML = `
+		<div style="position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background-color: red; color: white; padding: 10px; border-radius: 5px; z-index: 1000;">
+			❌ You must be logged in to access this page! Redirecting...
+		</div>
+	`;
 
-		setTimeout(() => {
-			window.location.href = "/index.html";
-		}, 1000);
-
-		throw new Error("Unauthorized access: Redirecting...");
+	setTimeout(() => {
+		window.location.href = "/index.html";
+	}, 1000);
+} else {
+	if (path.includes("register.html")) {
+		setRegisterFormListener();
+	} else if (path === "/" || path.includes("index.html")) {
+		setloginFormListener();
+	} else if (path.includes("/profile")) {
+		displayProfile();
 	}
-}, 100);
 
-// Initialize correct handler per route
-if (path.includes("register.html")) {
-	setRegisterFormListener();
-} else if (path === "/" || path.includes("index.html")) {
-	setloginFormListener();
-} else if (path.includes("/profile")) {
-	displayProfile();
-}
+	if (path.includes("/feed") || path.includes("/profile")) {
+		setCreatePostFormListener();
+		setUpdatePostListener();
 
-// Fetch and render posts on feed or profile page
-if (path.includes("/feed") || path.includes("/profile")) {
-	setCreatePostFormListener();
-	setUpdatePostListener();
-
-	getPosts()
-		.then(posts => {
-			if (!Array.isArray(posts)) {
-				console.error("❌ Feil: posts er ikke en array", posts);
-				return;
-			}
-			allPosts = posts;
-			renderPosts(allPosts);
-			initSearchAndFilter();
-		})
-		.catch(error => {
-			console.error("❌ Kunne ikke hente innlegg:", error);
-		});
+		getPosts()
+			.then(posts => {
+				if (!Array.isArray(posts)) {
+					console.error("❌ Feil: posts er ikke en array", posts);
+					return;
+				}
+				allPosts = posts;
+				renderPosts(allPosts);
+				initSearchAndFilter();
+			})
+			.catch(error => {
+				console.error("❌ Kunne ikke hente innlegg:", error);
+			});
+	}
 }
 
 /**
@@ -228,6 +222,7 @@ document.addEventListener("DOMContentLoaded", () => {
 		});
 	}
 });
+
 
     
 
