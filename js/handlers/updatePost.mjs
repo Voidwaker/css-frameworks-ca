@@ -1,8 +1,13 @@
 import { updatePost } from "../api/posts/update.mjs";
 
 /**
- * Opens the edit modal and fills it with post data.
- * @param {Object} post - The post data.
+ * Opens the edit modal and pre-fills it with the selected post's data.
+ *
+ * @param {Object} post - The post object to edit.
+ * @param {string} post.id - The ID of the post.
+ * @param {string} post.title - The title of the post.
+ * @param {string} post.body - The content/body of the post.
+ * @param {Object} [post.media] - Optional media object containing a URL.
  */
 export function openEditPostModal(post) {
     document.getElementById("editPostId").value = post.id;
@@ -15,15 +20,13 @@ export function openEditPostModal(post) {
 }
 
 /**
- * Sets up an event listener for the update form.
+ * Sets up a submit listener on the edit post form.
+ * Sends updated post data to the API and reloads the page on success.
  */
 export function setUpdatePostListener() {
     const form = document.getElementById("editPostForm");
 
-    if (!form) {
-        console.error("❌ Edit post form not found!");
-        return;
-    }
+    if (!form) return;
 
     form.addEventListener("submit", async (event) => {
         event.preventDefault();
@@ -43,10 +46,9 @@ export function setUpdatePostListener() {
         try {
             await updatePost(postData);
             alert("✅ Post updated successfully!");
-            location.reload(); // Refresh the page to see changes
+            location.reload();
         } catch (error) {
-            console.error("❌ Error updating post:", error);
-            alert("Error updating post: " + error.message);
+            alert("❌ Error updating post: " + error.message);
         }
     });
 }
