@@ -44,23 +44,24 @@ export async function getPosts() {
  * console.log(post.title);
  */
 export async function getPost(id) {
-    if (!id) {
-        throw new Error("getPost requires a Post ID");
-    }
+	if (!id) throw new Error("get requires Post ID");
 
-    const getPostUrl = `${API_SOCIAL_URL}${action}/${id}?_author=true&_comments=true&_reactions=true`;
+	const getPostUrl = `${API_SOCIAL_URL}/posts/${id}?_author=true&_comments=true&_reactions=true`;
 
-    try {
-        const response = await authFetch(getPostUrl);
-        if (!response.ok) {
-            const errorData = await response.json();
-            throw new Error(errorData.errors?.[0]?.message || `HTTP error! status: ${response.status}`);
-        }
+	try {
+		const response = await authFetch(getPostUrl);
+		if (!response.ok) {
+			const errorData = await response.json();
+			throw new Error(errorData.errors?.[0]?.message || `HTTP error! status: ${response.status}`);
+		}
 
-        return await response.json();
-    } catch (error) {
-        return null;
-    }
+		const { data } = await response.json(); 
+		return data;
+	} catch (error) {
+		console.error("❌ could not fetch post:", error);
+		return null;
+	}
 }
+
 
 
