@@ -1,11 +1,12 @@
 import * as storage from "../storage/index.mjs";
 
 /**
- * Logs out the user by removing authentication data and redirecting to the login page.
+ * Logs out the user by clearing relevant data from localStorage and redirecting to login.
+ *
+ * @example
+ * logout(); // Brukes f.eks. når brukeren klikker på "Logout"-knappen
  */
 export function logout() {
-    console.log("🔴 Logging out...");
-
     storage.remove("token");
     storage.remove("apiKey");
     storage.remove("profile");
